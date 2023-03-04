@@ -1,0 +1,11 @@
+.default {
+  font-weight: 300;
+  font-family: "neue-haas-grotesk-display", sans-serif;
+  font-style: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  margin: 0;
+  margin-bottom: 0.8rem;
+  font-size: clamp(1.4rem, 4vw, 1.6rem);
+  line-height: clamp(2rem, 4vw, 2.4rem);
+}

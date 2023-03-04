@@ -3,6 +3,8 @@ import { Inter } from "@next/font/google";
 import styles from "./page.module.scss";
 import Heading from "@/components/Heading";
 import Container from "@/components/ui/Container";
+import Body from "@/components/Body";
+import { LOREM } from "@/utils/constants";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,6 +18,10 @@ export default function Home() {
         <Heading tag="h4">Heading 4</Heading>
         <Heading tag="h5">Heading 5</Heading>
         <Heading tag="h6">Heading 6</Heading>
+      </Container>
+
+      <Container>
+        <Body>{LOREM}</Body>
       </Container>
     </main>
   );
