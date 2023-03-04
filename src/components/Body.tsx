@@ -1,6 +1,7 @@
 import React, { FC, forwardRef } from "react";
 import styles from "./Body.module.scss";
 import cn from "classnames";
+import Balancer from "react-wrap-balancer";
 
 /**
  *  Body
@@ -12,7 +13,10 @@ import cn from "classnames";
  * - Family: Poppins
  */
 const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
-  ({ children, style, className, ...rest }, forwardedRef) => {
+  (
+    { children, style, className, withBalancer = false, ...rest },
+    forwardedRef
+  ) => {
     const classes = cn(styles.default, className);
 
     return (
@@ -24,7 +28,7 @@ const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
         }}
         {...rest}
       >
-        {children}
+        {withBalancer ? <Balancer>{children}</Balancer> : children}
       </p>
     );
   }

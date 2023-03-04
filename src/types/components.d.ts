@@ -6,6 +6,7 @@ type TypographyProps<T> = {
   large?: boolean;
   style?: Partial<CSSProperties>;
   ref?: ForwardedRef<T>;
+  withBalancer?: boolean;
 };
 
 type ComponentProps<T> = {
