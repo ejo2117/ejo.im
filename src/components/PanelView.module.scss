@@ -1,0 +1,30 @@
+.container {
+  display: grid !important;
+  position: absolute !important;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    "hero hero"
+    "panel1 panel2";
+
+  @media screen and (min-width: $media-lg) {
+    grid-template-areas:
+      "hero panel1"
+      "hero panel2";
+  }
+}
+.hero {
+  grid-area: hero;
+  background-color: $orange;
+}
+
+.panel1 {
+  grid-area: panel1;
+  background-color: $gray-1;
+}
+
+.panel2 {
+  grid-area: panel2;
+  background-color: $gray-4;
+}
