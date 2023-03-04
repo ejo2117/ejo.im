@@ -1,0 +1,60 @@
+.container {
+  display: block;
+  position: static;
+
+  //   &--hoverable {
+  //     @include hoverable;
+  //   }
+
+  &--white {
+    background-color: white;
+    border: 1px solid $gray-2;
+  }
+
+  &--gray1 {
+    background-color: $gray-1;
+    border: 1px solid $gray-2;
+  }
+
+  &--noborder {
+    border: 0;
+  }
+
+  &--absolute {
+    position: absolute;
+  }
+
+  &--relative {
+    position: relative;
+  }
+
+  &--fullHeight {
+    height: 100%;
+  }
+
+  &--fullWidth {
+    width: 100%;
+  }
+
+  &--maxWidth {
+    max-width: $max-width;
+    width: 100%;
+  }
+
+  &--maxHeight {
+    height: 100vh;
+  }
+
+  &--fitWidth {
+    width: fit-content;
+  }
+
+  &--autoMargin {
+    margin: auto;
+  }
+
+  @include createRemRange(padding, 5);
+  @include createRemRange(margin, 5);
+  @include createRemRange(gap, 5);
+  @include createRemRange(border-radius, 5);
+}

@@ -1,0 +1,11 @@
+@use "sass:math";
+
+/** Creates multiple classes to accommodate a range of rem values for a specified property **/
+/** Implements the formula n => (2^n)/10, so at $i == 3, the property will have 0.8rem **/
+@mixin createRemRange($property, $loopLength) {
+  @for $i from 1 through $loopLength {
+    &--#{$i}#{$property} {
+      #{$property}: #{math.div(math.pow(2, $i), 10)}rem;
+    }
+  }
+}
