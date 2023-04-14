@@ -1,4 +1,8 @@
+import NavBar from "@/components/NavBar";
+import Flex from "@/components/ui/Flex";
 import "./globals.css";
+import Head from "./head";
+import styles from "./page.module.scss";
 
 export default function RootLayout({
   children,
@@ -7,12 +11,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
-      <body>{children}</body>
+      <Head />
+      <body>
+        <main className={styles.main}>
+          <Flex fullHeight fullWidth center pad={4}>
+            {/* <NavBar /> */}
+            <Flex
+              fullHeight
+              fullWidth
+              center
+              pad={4}
+              className={styles.content}
+            >
+              {children}
+            </Flex>
+          </Flex>
+        </main>
+      </body>
     </html>
   );
 }
