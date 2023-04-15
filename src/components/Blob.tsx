@@ -33,10 +33,13 @@ type BezierControlPoint = {
 // CONSTANTS
 const TOTAL_NODES = 8;
 const SPEED = 1;
-const RADIUS = 120;
-const AMPLITUDE = 22;
-const OFFSET_X = 23;
-const OFFSET_Y = 20;
+const RADIUS = 150;
+const AMPLITUDE = 20;
+
+const VIEW_SIZE = 400;
+
+const OFFSET_X = VIEW_SIZE / 2 - RADIUS;
+const OFFSET_Y = VIEW_SIZE / 2 - RADIUS;
 
 const rotate = (
   cx: number,
@@ -142,7 +145,6 @@ const Blob = () => {
     controlPoints: BezierControlPoint[],
     amplitude: number
   ) => {
-    // I will change the parameters on every possible frame.
     nodes.forEach((node, i) => {
       if (Math.abs(nodes[i].nextX - nodes[i].x) < 10) {
         const shiftX =
@@ -175,7 +177,6 @@ const Blob = () => {
       controlPoints[i].c2x += shiftX;
       controlPoints[i].c2y += shiftY;
     });
-
     return [nodes, controlPoints] as const;
   };
 
@@ -215,17 +216,6 @@ const Blob = () => {
     );
   };
 
-  //   const appendNodes = (nodes: Node[], controlPoints, svg,xmlns, debugOpacity) => {
-  //     nodes.forEach((node, i) => {
-  //         const line = document.createElementNS('xmlns', 'path')
-  //         line.setAttributeNS(null, 'stroke', `#000000${debugOpacity}`)
-  //         line.setAttributeNS(null, 'stroke-width', '1');
-  //         line.setAttributeNS(null, 'd', `
-  //             M${controlPoints[node.id]}
-  //         `)
-  //     })
-  //   }
-
   const [elapsed, delta] = useAnimationFrame((time) => {
     if (!pathRef.current) {
       return;
@@ -240,8 +230,15 @@ const Blob = () => {
   });
 
   return (
-    <svg height={400} width={400}>
-      <path ref={pathRef}></path>
+    <svg
+      height={VIEW_SIZE}
+      width={VIEW_SIZE}
+      style={{ background: "transparent" }}
+    >
+      <filter id="blur">
+        <feGaussianBlur stdDeviation={4} />
+      </filter>
+      <path ref={pathRef} filter="url(#blur)"></path>
     </svg>
   );
 };

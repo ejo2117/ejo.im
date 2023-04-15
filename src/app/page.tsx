@@ -6,15 +6,15 @@ import Container from "@/components/ui/Container";
 import Body from "@/components/Body";
 import { LOREM } from "@/utils/constants";
 import Flex from "@/components/ui/Flex";
-import Blobs from "@/components/Blob";
+import Blob from "@/components/Blob";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <>
-      <Blobs />
-      {/* <Body>{LOREM}</Body> */}
-    </>
+    <Flex column center>
+      <Blob />
+      <Body>{LOREM}</Body>
+    </Flex>
   );
 }
