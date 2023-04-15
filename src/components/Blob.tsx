@@ -132,6 +132,7 @@ const createControlPoints = (
   });
 };
 
+// https://observablehq.com/@daformat/drawing-blobs-with-svg
 const Blob = () => {
   const [nodes, setNodes] = useState(createNodes(RADIUS, OFFSET_X, OFFSET_Y));
   const [controlPoints, setControlPoints] = useState(
