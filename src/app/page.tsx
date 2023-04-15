@@ -6,7 +6,7 @@ import Container from "@/components/ui/Container";
 import Body from "@/components/Body";
 import { LOREM } from "@/utils/constants";
 import Flex from "@/components/ui/Flex";
-import Blobs from "@/components/Blobs";
+import Blobs from "@/components/Blob";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Blobs />
-      <Body>{LOREM}</Body>
+      {/* <Body>{LOREM}</Body> */}
     </>
   );
 }
