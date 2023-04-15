@@ -140,6 +140,7 @@ const Blob = () => {
   );
 
   const pathRef = useRef<SVGPathElement>(null);
+  const gradientRef = useRef<SVGLinearGradientElement>(null);
 
   const animate = (
     nodes: Node[],
@@ -236,6 +237,7 @@ const Blob = () => {
       width={VIEW_SIZE}
       style={{ background: "transparent" }}
     >
+      <linearGradient ref={gradientRef} />
       <filter id="blur">
         <feGaussianBlur stdDeviation={4} />
       </filter>
