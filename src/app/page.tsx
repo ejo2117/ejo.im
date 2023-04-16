@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <Flex column center>
       <Blob />
-      <Body>{LOREM}</Body>
+      <Body>An amorphous blob, floating in space.</Body>
     </Flex>
   );
 }

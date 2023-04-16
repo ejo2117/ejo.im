@@ -4,6 +4,7 @@ import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
 import React, { useEffect, useRef, useState } from "react";
 import { Path } from "typescript";
 import Flex from "./ui/Flex";
+import { Poline } from "poline";
 
 // TYPES
 
@@ -132,6 +133,8 @@ const createControlPoints = (
   });
 };
 
+const gradientColor = new Poline();
+
 // https://observablehq.com/@daformat/drawing-blobs-with-svg
 const Blob = () => {
   const [nodes, setNodes] = useState(createNodes(RADIUS, OFFSET_X, OFFSET_Y));
@@ -218,6 +221,8 @@ const Blob = () => {
     );
   };
 
+  // Here's where the animation actually gets run.
+  // We pass the hook a function that executes on every available frame
   const [elapsed, delta] = useAnimationFrame((time) => {
     if (!pathRef.current) {
       return;
@@ -237,11 +242,26 @@ const Blob = () => {
       width={VIEW_SIZE}
       style={{ background: "transparent" }}
     >
-      <linearGradient ref={gradientRef} />
+      <linearGradient
+        ref={gradientRef}
+        id="gradient"
+        x1={0}
+        y1={0}
+        x2={VIEW_SIZE}
+        y2={VIEW_SIZE}
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor={gradientColor.colorsCSS[0]} stopOpacity="0.15" />
+        <stop
+          offset="1"
+          stopColor={gradientColor.colorsCSS[5]}
+          stopOpacity="0.29"
+        />
+      </linearGradient>
       <filter id="blur">
         <feGaussianBlur stdDeviation={4} />
       </filter>
-      <path ref={pathRef} filter="url(#blur)"></path>
+      <path ref={pathRef} filter="url(#blur)" fill="url(#gradient)"></path>
     </svg>
   );
 };
