@@ -33,9 +33,9 @@ type BezierControlPoint = {
 
 // CONSTANTS
 const TOTAL_NODES = 8;
-const SPEED = 1;
+const SPEED = 2;
 const RADIUS = 150;
-const AMPLITUDE = 20;
+const AMPLITUDE = 40;
 
 const VIEW_SIZE = 400;
 
@@ -133,14 +133,13 @@ const createControlPoints = (
   });
 };
 
-const gradientColor = new Poline();
-
 // https://observablehq.com/@daformat/drawing-blobs-with-svg
 const Blob = () => {
   const [nodes, setNodes] = useState(createNodes(RADIUS, OFFSET_X, OFFSET_Y));
   const [controlPoints, setControlPoints] = useState(
     createControlPoints(nodes, RADIUS, OFFSET_X, OFFSET_Y)
   );
+  const [poline, setPoline] = useState(new Poline());
 
   const pathRef = useRef<SVGPathElement>(null);
   const gradientRef = useRef<SVGLinearGradientElement>(null);
@@ -251,12 +250,8 @@ const Blob = () => {
         y2={VIEW_SIZE}
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor={gradientColor.colorsCSS[0]} stopOpacity="0.15" />
-        <stop
-          offset="1"
-          stopColor={gradientColor.colorsCSS[5]}
-          stopOpacity="0.29"
-        />
+        <stop stopColor={poline.colorsCSS[4]} stopOpacity="0.15" />
+        <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
       </linearGradient>
       <filter id="blur">
         <feGaussianBlur stdDeviation={4} />

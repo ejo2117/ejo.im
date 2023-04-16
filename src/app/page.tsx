@@ -13,8 +13,14 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   return (
     <Flex column center>
-      <Blob />
-      <Body>An amorphous blob, floating in space.</Body>
+      <div className={styles.blobs}>
+        <Blob />
+      </div>
+      <Body>
+        {
+          "An amorphous blob, floating in space. It doesn't do much other than look pretty!"
+        }
+      </Body>
     </Flex>
   );
 }

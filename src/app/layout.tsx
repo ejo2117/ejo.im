@@ -15,7 +15,7 @@ export default function RootLayout({
       <body>
         <main className={styles.main}>
           <Flex fullHeight fullWidth center pad={4}>
-            {/* <NavBar /> */}
+            <NavBar />
             <Flex
               fullHeight
               fullWidth
