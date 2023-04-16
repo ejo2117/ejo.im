@@ -232,6 +232,7 @@ const Blob = () => {
       AMPLITUDE
     );
 
+    poline.shiftHue(3);
     drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
   });
 
@@ -254,7 +255,7 @@ const Blob = () => {
         <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
       </linearGradient>
       <filter id="blur">
-        <feGaussianBlur stdDeviation={4} />
+        <feGaussianBlur stdDeviation={10} />
       </filter>
       <path ref={pathRef} filter="url(#blur)" fill="url(#gradient)"></path>
     </svg>

@@ -14,7 +14,7 @@ export default function RootLayout({
       <Head />
       <body>
         <main className={styles.main}>
-          <Flex fullHeight fullWidth center pad={4}>
+          <Flex fullHeight fullWidth center pad={4} column>
             <NavBar />
             <Flex
               fullHeight
