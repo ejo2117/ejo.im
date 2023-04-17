@@ -1,0 +1,18 @@
+.container {
+  border-radius: 8px;
+  background-color: rgba($color: $gray-2, $alpha: 0.8);
+  position: relative;
+  padding: 1.6rem;
+  backdrop-filter: blur(2px);
+  font-size: large;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  padding: 1.6rem;
+  background-color: rgba($color: $gray-2, $alpha: 0.8);
+  backdrop-filter: blur(2px);
+  width: 100%;
+  z-index: 1;
+}

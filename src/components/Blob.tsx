@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Path } from "typescript";
 import Flex from "./ui/Flex";
 import { Poline } from "poline";
+import useTilg from "tilg";
 
 // TYPES
 
@@ -38,9 +39,6 @@ const RADIUS = 150;
 const AMPLITUDE = 40;
 
 const VIEW_SIZE = 400;
-
-const OFFSET_X = VIEW_SIZE / 2 - RADIUS;
-const OFFSET_Y = VIEW_SIZE / 2 - RADIUS;
 
 const rotate = (
   cx: number,
@@ -133,13 +131,30 @@ const createControlPoints = (
   });
 };
 
+type BlobProps = {
+  colors: Poline;
+  radius?: number;
+  speed?: number;
+  amplitude?: number;
+  viewSize?: number;
+};
+
 // https://observablehq.com/@daformat/drawing-blobs-with-svg
-const Blob = () => {
-  const [nodes, setNodes] = useState(createNodes(RADIUS, OFFSET_X, OFFSET_Y));
+const Blob = ({
+  colors = new Poline(),
+  radius = RADIUS,
+  speed = SPEED,
+  amplitude = AMPLITUDE,
+  viewSize = VIEW_SIZE,
+}: BlobProps) => {
+  const OFFSET_X = viewSize / 2 - radius;
+  const OFFSET_Y = viewSize / 2 - radius;
+
+  const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
   const [controlPoints, setControlPoints] = useState(
-    createControlPoints(nodes, RADIUS, OFFSET_X, OFFSET_Y)
+    createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
   );
-  const [poline, setPoline] = useState(new Poline());
+  const [poline, setPoline] = useState(colors);
 
   const pathRef = useRef<SVGPathElement>(null);
   const gradientRef = useRef<SVGLinearGradientElement>(null);
@@ -185,7 +200,7 @@ const Blob = () => {
   };
 
   const ease = (t: number) => {
-    return (-(Math.cos((Math.PI / 2) * t * 5) - 2) / 256) * SPEED;
+    return (-(Math.cos((Math.PI / 2) * t * 5) - 2) / 256) * speed;
   };
 
   const drawBlobPath = (
@@ -229,35 +244,53 @@ const Blob = () => {
     const [updatedNodes, updatedControlPoints] = animate(
       nodes,
       controlPoints,
-      AMPLITUDE
+      amplitude
     );
 
-    poline.shiftHue(3);
+    // poline.shiftHue(3);
     drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
   });
 
   return (
     <svg
-      height={VIEW_SIZE}
-      width={VIEW_SIZE}
+      height={viewSize}
+      width={viewSize}
       style={{ background: "transparent" }}
     >
-      <linearGradient
-        ref={gradientRef}
-        id="gradient"
-        x1={0}
-        y1={0}
-        x2={VIEW_SIZE}
-        y2={VIEW_SIZE}
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop stopColor={poline.colorsCSS[4]} stopOpacity="0.15" />
-        <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
-      </linearGradient>
-      <filter id="blur">
-        <feGaussianBlur stdDeviation={10} />
-      </filter>
-      <path ref={pathRef} filter="url(#blur)" fill="url(#gradient)"></path>
+      <defs>
+        <radialGradient
+          id="GradientReflect"
+          cx="0.5"
+          cy="0.5"
+          r="0.4"
+          fx="0.75"
+          fy="0.75"
+          spreadMethod="reflect"
+        >
+          <stop offset="0%" stopColor={poline.colorsCSS[2]} />
+          <stop offset="100%" stopColor={poline.colorsCSS[5]} />
+        </radialGradient>
+        <linearGradient
+          ref={gradientRef}
+          id="gradient"
+          x1={0}
+          y1={0}
+          x2={viewSize}
+          y2={viewSize}
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor={poline.colorsCSS[2]} stopOpacity="0.15" />
+          <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
+        </linearGradient>
+        <filter id="blur">
+          <feGaussianBlur stdDeviation={1} />
+        </filter>
+      </defs>
+      <path
+        ref={pathRef}
+        filter="url(#blur)"
+        fill="url(#GradientReflect)"
+      ></path>
     </svg>
   );
 };
