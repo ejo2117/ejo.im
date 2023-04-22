@@ -40,103 +40,14 @@ const AMPLITUDE = 40;
 
 const VIEW_SIZE = 400;
 
-const rotate = (
-  cx: number,
-  cy: number,
-  x: number,
-  y: number,
-  radians: number
-) => {
-  const cos = Math.cos(radians),
-    sin = Math.sin(radians),
-    nx = cos * (x - cx) + sin * (y - cy) + cx,
-    ny = cos * (y - cy) - sin * (x - cx) + cy;
-  return [nx, ny] as const;
-};
-
-const createNodes = (radius: number, offsetX: number, offsetY: number) => {
-  let nodes: Node[] = [],
-    width = radius * 2,
-    height = radius * 2,
-    angle,
-    x,
-    y;
-
-  for (let i = 0; i < TOTAL_NODES; i++) {
-    angle = (i / (TOTAL_NODES / 2)) * Math.PI;
-    x = radius * Math.cos(angle) + width / 2;
-    y = radius * Math.sin(angle) + width / 2;
-    nodes.push({
-      id: i,
-      x: x + offsetX,
-      y: y + offsetY,
-      prevX: x + offsetX,
-      prevY: y + offsetY,
-      nextX: x + offsetX,
-      nextY: y + offsetY,
-      baseX: x + offsetX,
-      baseY: y + offsetY,
-      angle,
-      debug: {},
-    });
-  }
-
-  return nodes;
-};
-
-const createControlPoints = (
-  nodes: Node[],
-  radius: number,
-  offsetX: number,
-  offsetY: number
-) => {
-  // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
-  const idealControlPointDistance =
-    (4 / 3) * Math.tan(Math.PI / (2 * TOTAL_NODES)) * radius;
-
-  const cp0 = {
-    c1x: nodes[0].x,
-    c1y: nodes[0].y - idealControlPointDistance,
-    c2x: nodes[0].x,
-    c2y: nodes[0].y + idealControlPointDistance,
-  };
-
-  return nodes.map<BezierControlPoint>((node, i) => {
-    if (i === 0) {
-      return cp0;
-    }
-
-    const angle = -node.angle;
-    const rotatedC1 = rotate(
-      radius + offsetX,
-      radius + offsetY,
-      cp0.c1x,
-      cp0.c1y,
-      angle
-    );
-    const rotatedC2 = rotate(
-      radius + offsetX,
-      radius + offsetY,
-      cp0.c2x,
-      cp0.c2y,
-      angle
-    );
-
-    return {
-      c1x: rotatedC1[0],
-      c1y: rotatedC1[1],
-      c2x: rotatedC2[0],
-      c2y: rotatedC2[1],
-    };
-  });
-};
-
 type BlobProps = {
   colors: Poline;
   radius?: number;
   speed?: number;
   amplitude?: number;
   viewSize?: number;
+  blurStrength?: number;
+  points?: number;
 };
 
 // https://observablehq.com/@daformat/drawing-blobs-with-svg
@@ -146,9 +57,102 @@ const Blob = ({
   speed = SPEED,
   amplitude = AMPLITUDE,
   viewSize = VIEW_SIZE,
+  blurStrength = 8,
+  points = TOTAL_NODES,
 }: BlobProps) => {
   const OFFSET_X = viewSize / 2 - radius;
   const OFFSET_Y = viewSize / 2 - radius;
+
+  const rotate = (
+    cx: number,
+    cy: number,
+    x: number,
+    y: number,
+    radians: number
+  ) => {
+    const cos = Math.cos(radians),
+      sin = Math.sin(radians),
+      nx = cos * (x - cx) + sin * (y - cy) + cx,
+      ny = cos * (y - cy) - sin * (x - cx) + cy;
+    return [nx, ny] as const;
+  };
+
+  const createNodes = (radius: number, offsetX: number, offsetY: number) => {
+    let nodes: Node[] = [],
+      width = radius * 2,
+      height = radius * 2,
+      angle,
+      x,
+      y;
+
+    for (let i = 0; i < points; i++) {
+      angle = (i / (points / 2)) * Math.PI;
+      x = radius * Math.cos(angle) + width / 2;
+      y = radius * Math.sin(angle) + width / 2;
+      nodes.push({
+        id: i,
+        x: x + offsetX,
+        y: y + offsetY,
+        prevX: x + offsetX,
+        prevY: y + offsetY,
+        nextX: x + offsetX,
+        nextY: y + offsetY,
+        baseX: x + offsetX,
+        baseY: y + offsetY,
+        angle,
+        debug: {},
+      });
+    }
+
+    return nodes;
+  };
+
+  const createControlPoints = (
+    nodes: Node[],
+    radius: number,
+    offsetX: number,
+    offsetY: number
+  ) => {
+    // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
+    const idealControlPointDistance =
+      (4 / 3) * Math.tan(Math.PI / (2 * points)) * radius;
+
+    const cp0 = {
+      c1x: nodes[0].x,
+      c1y: nodes[0].y - idealControlPointDistance,
+      c2x: nodes[0].x,
+      c2y: nodes[0].y + idealControlPointDistance,
+    };
+
+    return nodes.map<BezierControlPoint>((node, i) => {
+      if (i === 0) {
+        return cp0;
+      }
+
+      const angle = -node.angle;
+      const rotatedC1 = rotate(
+        radius + offsetX,
+        radius + offsetY,
+        cp0.c1x,
+        cp0.c1y,
+        angle
+      );
+      const rotatedC2 = rotate(
+        radius + offsetX,
+        radius + offsetY,
+        cp0.c2x,
+        cp0.c2y,
+        angle
+      );
+
+      return {
+        c1x: rotatedC1[0],
+        c1y: rotatedC1[1],
+        c2x: rotatedC2[0],
+        c2y: rotatedC2[1],
+      };
+    });
+  };
 
   const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
   const [controlPoints, setControlPoints] = useState(
@@ -262,9 +266,9 @@ const Blob = ({
           id="GradientReflect"
           cx="0.5"
           cy="0.5"
-          r="0.4"
-          fx="0.75"
-          fy="0.75"
+          r={0.4}
+          fx={0.75}
+          fy={0.75}
           spreadMethod="reflect"
         >
           <stop offset="0%" stopColor={poline.colorsCSS[2]} />
@@ -283,7 +287,7 @@ const Blob = ({
           <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
         </linearGradient>
         <filter id="blur">
-          <feGaussianBlur stdDeviation={1} />
+          <feGaussianBlur stdDeviation={blurStrength} />
         </filter>
       </defs>
       <path

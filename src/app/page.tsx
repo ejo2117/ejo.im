@@ -18,15 +18,10 @@ export default async function Home() {
   return (
     <Flex column center gap={4}>
       <div className={styles.blobs}>
-        <Blob colors={poline} />
+        <Blob colors={poline} blurStrength={8} points={4} />
+        <Blob colors={poline} radius={60} amplitude={15} blurStrength={1} />
+        <Blob colors={poline} radius={110} points={60} />
       </div>
-      <Flex column center>
-        <Body>{"An amorphous blob, floating in space."}</Body>
-        <Body>{"It doesn't do much other than look pretty!"}</Body>
-        <div className={styles.spacer} />
-        <Cell />
-        <div className={styles.spacer} />
-      </Flex>
     </Flex>
   );
 }
