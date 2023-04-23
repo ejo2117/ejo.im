@@ -1,6 +1,6 @@
 import { LOREM } from "@/utils/constants";
 import React from "react";
-import { Flex } from "../index";
+import { Badge, Flex, Title } from "../index";
 import styles from "./Cell.module.scss";
 import { Inter } from "@next/font/google";
 const inter = Inter({ subsets: ["latin"] });
@@ -23,6 +23,12 @@ const Cell = ({ jobTitle, company, dates, description }: CellProps) => {
         <i>{dates}</i>
       </Flex>
       <p className={inter.className}>{description}</p>
+      <Flex column gap={2}>
+        <Title>I Used</Title>
+        <Flex>
+          <Badge title={"Figma"}></Badge>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };

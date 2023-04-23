@@ -10,7 +10,7 @@ import styles from "./NavBar.module.scss";
 const PATHS = [
   ["/", "Home"],
   ["/about", "About"],
-  ["/resume", "Resume"],
+  ["/resume", "Work"],
 ] as const;
 
 const NavBar = () => {
@@ -18,7 +18,7 @@ const NavBar = () => {
 
   return (
     <nav className={styles.container}>
-      <Flex column gap={4} justify="start">
+      <Flex gap={4} justify="start">
         {PATHS.map(([href, name]) => {
           return (
             <Link key={href} href={href}>
