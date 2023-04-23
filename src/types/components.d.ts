@@ -7,6 +7,8 @@ type TypographyProps<T> = {
   style?: Partial<CSSProperties>;
   ref?: ForwardedRef<T>;
   withBalancer?: boolean;
+  bold?: boolean;
+  light?: boolean;
 };
 
 type ComponentProps<T> = {
@@ -14,6 +16,5 @@ type ComponentProps<T> = {
   className?: string;
   style?: Partial<CSSProperties>;
   ref?: ForwardedRef<T>;
-  forceMobileStyle?: boolean;
   dataTags?: { [k: string]: any };
 };

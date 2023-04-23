@@ -1,14 +1,8 @@
 "use client";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
 import styles from "./page.module.scss";
-import { LOREM } from "@/utils/constants";
-import { Flex, Body, Container, Heading } from "@/components/ui";
+import { Flex } from "@/components/ui";
 import Blob from "@/components/Blob";
 import { Poline } from "poline";
-import Cell from "@/components/ui/Cell";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default async function Home() {
   const poline = new Poline();

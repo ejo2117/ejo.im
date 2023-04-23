@@ -13,18 +13,7 @@ type Props = {
   withBalancer?: boolean;
 };
 
-/**
- * Heading
- *
- * @tagOptions [h1, h2, h3, h4, h5, h6]
- * @default
- * - Size: 4rem
- * - Weight: 500
- * - Height: 4.8rem
- * - Family: Platform
- * - Margin: 0
- */
-const Heading: FC<Props> = forwardRef(
+const Heading = forwardRef<HTMLHeadingElement, Props>(
   (
     { children, className, style, tag = "h1", withBalancer = false, ...props },
     forwardedRef

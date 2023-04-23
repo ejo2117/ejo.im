@@ -1,18 +1,18 @@
 import React, { FC, forwardRef } from "react";
-import styles from "./Body.module.scss";
+import styles from "./Caption.module.scss";
 import cn from "classnames";
 import Balancer from "react-wrap-balancer";
 
 /**
- *  Body
+ *  Caption
  *
  * @default
- * - Size: 1.6rem
+ * - Size: 1.4rem
  * - Weight: 400
- * - Height: 2.4rem
+ * - Height: 2.1rem
  * - Family: Inter
  */
-const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
+const Caption: FC<TypographyProps<HTMLSpanElement>> = forwardRef(
   (
     { children, style, className, withBalancer = false, bold, ...rest },
     forwardedRef
@@ -20,7 +20,7 @@ const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
     const classes = cn(styles.default, { [styles.bold]: bold }, className);
 
     return (
-      <p
+      <span
         className={classes}
         ref={forwardedRef}
         style={{
@@ -29,11 +29,11 @@ const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
         {...rest}
       >
         {withBalancer ? <Balancer>{children}</Balancer> : children}
-      </p>
+      </span>
     );
   }
 );
 
-Body.displayName = "Body";
+Caption.displayName = "Caption";
 
-export default Body;
+export default Caption;

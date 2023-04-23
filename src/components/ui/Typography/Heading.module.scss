@@ -1,45 +1,38 @@
 .default {
   font-weight: 700;
-  font-family: "neue-haas-grotesk-display", sans-serif;
   font-style: normal;
   overflow-wrap: break-word;
   word-wrap: break-word;
-  margin: 0;
-  margin-bottom: 0.8rem;
 }
 
 .h1 {
   font-size: 4.8rem;
-  line-height: 4.8rem;
-  letter-spacing: 0.004em;
+  line-height: 5.8rem;
+  font-weight: 900;
 }
 
 .h2 {
-  font-size: 3.6rem;
-  line-height: 3.3rem;
-  letter-spacing: 0.0036em;
+  font-size: 4rem;
+  line-height: 4.8rem;
+  font-weight: 800;
 }
 
 .h3 {
-  font-size: 3.2rem;
-  line-height: 3.2rem;
-  letter-spacing: 0.0032em;
+  font-size: 3.6rem;
+  line-height: 4.4rem;
 }
 
 .h4 {
-  font-size: 2.8rem;
-  line-height: 2.8rem;
-  letter-spacing: 0.0028em;
+  font-size: 3.2rem;
+  line-height: 4rem;
 }
 
 .h5 {
   font-size: 2.4rem;
-  line-height: 2.4rem;
-  letter-spacing: 0.0024em;
+  line-height: 2.9rem;
 }
 
 .h6 {
   font-size: 2rem;
   line-height: 2.4rem;
-  letter-spacing: 0.002em;
 }

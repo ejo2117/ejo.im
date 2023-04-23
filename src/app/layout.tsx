@@ -3,17 +3,23 @@ import { Flex } from "@/components/ui";
 import "./globals.css";
 import Head from "./head";
 import styles from "./page.module.scss";
+import { Inter } from "@next/font/google";
+import cn from "classnames";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const classes = cn(styles.main, inter.className);
+
   return (
     <html lang="en">
       <Head />
       <body>
-        <main className={styles.main}>
+        <main className={classes}>
           <Flex fullHeight fullWidth center pad={4} column>
             <NavBar />
             <Flex
