@@ -1,5 +1,5 @@
 import Cell from "@/components/ui/Cell";
-import Flex from "@/components/ui/Flex";
+import { Flex } from "@/components/ui";
 
 export default function Resume() {
   // Return JSX here!

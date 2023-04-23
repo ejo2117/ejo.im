@@ -3,7 +3,7 @@
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
 import React, { useEffect, useRef, useState } from "react";
 import { Path } from "typescript";
-import Flex from "./ui/Flex";
+import { Flex } from "./ui";
 import { Poline } from "poline";
 import useTilg from "tilg";
 

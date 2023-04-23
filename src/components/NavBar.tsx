@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import Heading from "./Heading";
-import Flex from "./ui/Flex";
+import { Flex, Heading } from "./ui";
 import { motion } from "framer-motion";
 import styles from "./NavBar.module.scss";
 
@@ -18,8 +17,8 @@ const NavBar = () => {
   const pathname = usePathname();
 
   return (
-    <nav>
-      <Flex gap={4} justify="start">
+    <nav className={styles.container}>
+      <Flex column gap={4} justify="start">
         {PATHS.map(([href, name]) => {
           return (
             <Link key={href} href={href}>

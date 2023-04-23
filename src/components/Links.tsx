@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./PanelView.module.scss";
-import Heading from "./Heading";
-import Container from "./ui/Container";
+import { Container, Heading } from "./ui";
 
 const Links = () => {
   return (

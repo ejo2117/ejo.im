@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./PanelView.module.scss";
-import Heading from "./Heading";
-import Body from "./Body";
-import Container from "./ui/Container";
+import { Heading, Body, Container } from "./ui";
 
 const About = () => {
   return (

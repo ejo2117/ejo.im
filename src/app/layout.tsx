@@ -1,5 +1,5 @@
 import NavBar from "@/components/NavBar";
-import Flex from "@/components/ui/Flex";
+import { Flex } from "@/components/ui";
 import "./globals.css";
 import Head from "./head";
 import styles from "./page.module.scss";

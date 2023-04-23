@@ -1,5 +1,11 @@
 .underline {
   height: 4px;
   width: 10px;
-  background-color: $blue;
+  background-color: $gray-0;
+}
+
+.container {
+  position: absolute;
+  left: -32px;
+  top: 0;
 }

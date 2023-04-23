@@ -2,11 +2,8 @@
 import Image from "next/image";
 import { Inter } from "@next/font/google";
 import styles from "./page.module.scss";
-import Heading from "@/components/Heading";
-import Container from "@/components/ui/Container";
-import Body from "@/components/Body";
 import { LOREM } from "@/utils/constants";
-import Flex from "@/components/ui/Flex";
+import { Flex, Body, Container, Heading } from "@/components/ui";
 import Blob from "@/components/Blob";
 import { Poline } from "poline";
 import Cell from "@/components/ui/Cell";

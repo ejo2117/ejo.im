@@ -3,7 +3,7 @@ import styles from "./PanelView.module.scss";
 import About from "./About";
 import Hero from "./Hero";
 import Links from "./Links";
-import Container from "./ui/Container";
+import { Container } from "./ui";
 
 const PanelView = () => {
   return (

@@ -1,6 +1,6 @@
 import { LOREM } from "@/utils/constants";
 import React from "react";
-import Flex from "../Flex";
+import { Flex } from "../index";
 import styles from "./Cell.module.scss";
 import { Inter } from "@next/font/google";
 const inter = Inter({ subsets: ["latin"] });
