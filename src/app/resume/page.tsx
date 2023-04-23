@@ -1,11 +1,27 @@
 import Cell from "@/components/ui/Cell";
 import { Flex } from "@/components/ui";
+import {
+  FigmaBadge,
+  GraphQlBadge,
+  NextJsBadge,
+  ReactBadge,
+  ShopifyBadge,
+  TypescriptBadge,
+} from "@/components/ui/Badge/Badge";
 
 export default function Resume() {
   // Return JSX here!
 
   return (
     <Flex column gap={4} position="relative">
+      <Flex>
+        <FigmaBadge />
+        <ReactBadge />
+        <ShopifyBadge />
+        <NextJsBadge />
+        <GraphQlBadge />
+        <TypescriptBadge />
+      </Flex>
       <Cell
         jobTitle={"Full Stack Developer"}
         company={"Pair Eyewear"}

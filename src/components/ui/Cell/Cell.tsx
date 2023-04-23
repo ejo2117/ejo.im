@@ -3,6 +3,7 @@ import React from "react";
 import { Badge, Flex, Title } from "../index";
 import styles from "./Cell.module.scss";
 import { Inter } from "@next/font/google";
+import { FigmaBadge } from "../Badge/Badge";
 const inter = Inter({ subsets: ["latin"] });
 
 type CellProps = {
@@ -26,7 +27,7 @@ const Cell = ({ jobTitle, company, dates, description }: CellProps) => {
       <Flex column gap={2}>
         <Title>I Used</Title>
         <Flex>
-          <Badge title={"Figma"}></Badge>
+          <FigmaBadge />
         </Flex>
       </Flex>
     </Flex>
