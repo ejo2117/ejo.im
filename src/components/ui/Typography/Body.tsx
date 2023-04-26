@@ -14,10 +14,25 @@ import Balancer from "react-wrap-balancer";
  */
 const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
   (
-    { children, style, className, withBalancer = false, bold, ...rest },
+    {
+      children,
+      style,
+      className,
+      withBalancer = false,
+      bold,
+      italic,
+      large,
+      ...rest
+    },
     forwardedRef
   ) => {
-    const classes = cn(styles.default, { [styles.bold]: bold }, className);
+    const classes = cn(
+      styles.default,
+      { [styles.bold]: bold },
+      { [styles.italic]: italic },
+      { [styles.large]: large },
+      className
+    );
 
     return (
       <p

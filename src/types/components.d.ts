@@ -9,6 +9,7 @@ type TypographyProps<T> = {
   withBalancer?: boolean;
   bold?: boolean;
   light?: boolean;
+  italic?: boolean;
 };
 
 type ComponentProps<T> = {

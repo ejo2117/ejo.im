@@ -79,6 +79,10 @@
   margin: 0;
 }
 
+*::selection {
+  background: #ccc;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -103,6 +107,14 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+@media (hover: hover) {
+  a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: from-font;
+    text-underline-position: from-font;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

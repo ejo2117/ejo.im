@@ -100,6 +100,15 @@ const GraphQlBadge = () => (
   />
 );
 
+const SkillBadges = {
+  figma: FigmaBadge,
+  react: ReactBadge,
+  typescript: TypescriptBadge,
+  graphql: GraphQlBadge,
+  nextjs: NextJsBadge,
+  shopify: ShopifyBadge,
+} as const;
+
 export {
   FigmaBadge,
   ReactBadge,
@@ -107,6 +116,7 @@ export {
   GraphQlBadge,
   NextJsBadge,
   ShopifyBadge,
+  SkillBadges,
 };
 
 export default Badge;

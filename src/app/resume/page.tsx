@@ -14,23 +14,16 @@ export default function Resume() {
 
   return (
     <Flex column gap={4} position="relative">
-      <Flex>
-        <FigmaBadge />
-        <ReactBadge />
-        <ShopifyBadge />
-        <NextJsBadge />
-        <GraphQlBadge />
-        <TypescriptBadge />
-      </Flex>
       <Cell
         jobTitle={"Full Stack Developer"}
         company={"Pair Eyewear"}
         dates={"2020 - 2023"}
         description={`
            
-          Cross-functional collaboration has a been a frequent and critical aspect of th I was exposed to challenges across multiple domains.  
+          Cross-functional collaboration has a been a frequent and critical aspect of the role, and I have enjoyed working through challenges across multiple domains.  
         
           `}
+        skills={["typescript", "shopify", "react", "nextjs", "graphql"]}
       />
       <Cell
         jobTitle={"UI/UX Intern"}
@@ -40,15 +33,17 @@ export default function Resume() {
 
             Promoted to a full time engineering role after 4 months.
           `}
+        skills={["figma", "shopify", "react"]}
       />
       <Cell
-        jobTitle={"Co-Owner, Product Engineer"}
+        jobTitle={"Co-Owner, Product Developer"}
         company={"Sight"}
         dates={"2018 - 2020"}
         description={`
             
             Brought bold and exciting creative visions to life for multiple E-Commerce clients.
           `}
+        skills={["figma", "nextjs", "shopify", "react"]}
       />
     </Flex>
   );

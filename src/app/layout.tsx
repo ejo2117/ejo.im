@@ -20,17 +20,18 @@ export default function RootLayout({
       <Head />
       <body>
         <main className={classes}>
-          <Flex fullHeight fullWidth center pad={4} column>
+          <Flex
+            fullHeight
+            className={styles.content}
+            margin={"auto"}
+            justify="start"
+            align="center"
+            pad={4}
+          >
             <NavBar />
-            <Flex
-              fullHeight
-              fullWidth
-              center
-              pad={4}
-              className={styles.content}
-            >
+            {/* <Flex center pad={4} className={styles.content}>
               {children}
-            </Flex>
+            </Flex> */}
           </Flex>
         </main>
       </body>

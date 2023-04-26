@@ -1,9 +1,10 @@
+"use client";
 import { LOREM } from "@/utils/constants";
 import React from "react";
-import { Badge, Flex, Title } from "../index";
+import { Badge, Body, Flex, Heading, Title } from "../index";
 import styles from "./Cell.module.scss";
 import { Inter } from "@next/font/google";
-import { FigmaBadge } from "../Badge/Badge";
+import { FigmaBadge, SkillBadges } from "../Badge/Badge";
 const inter = Inter({ subsets: ["latin"] });
 
 type CellProps = {
@@ -11,24 +12,23 @@ type CellProps = {
   company: string;
   dates: string;
   description: string;
+  skills: (keyof typeof SkillBadges)[];
 };
 
-const Cell = ({ jobTitle, company, dates, description }: CellProps) => {
+const Cell = ({ jobTitle, company, dates, description, skills }: CellProps) => {
   return (
     <Flex column className={styles.container} pad={4} position="relative">
       <Flex justify="between" align="end" className={styles.header}>
         <Flex column gap={1}>
-          <b className={inter.className}>{jobTitle}</b>
-          <i>{company}</i>
+          <Title>{jobTitle}</Title>
+          <Body italic>{company}</Body>
         </Flex>
-        <i>{dates}</i>
+        <Body italic>{dates}</Body>
       </Flex>
-      <p className={inter.className}>{description}</p>
+      <Body>{description}</Body>
       <Flex column gap={2}>
-        <Title>I Used</Title>
-        <Flex>
-          <FigmaBadge />
-        </Flex>
+        <Body bold>I used: </Body>
+        <Flex gap={4}>{skills.map((skill) => SkillBadges[skill]())}</Flex>
       </Flex>
     </Flex>
   );

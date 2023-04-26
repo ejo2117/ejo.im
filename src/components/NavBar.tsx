@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { Flex, Heading } from "./ui";
+import { Caption, Flex, Heading, Spacer, Title } from "./ui";
 import { motion } from "framer-motion";
 import styles from "./NavBar.module.scss";
 
 const PATHS = [
   ["/", "Home"],
   ["/about", "About"],
-  ["/resume", "Work"],
+  ["/resume", "Experience"],
 ] as const;
 
 const NavBar = () => {
@@ -18,21 +18,26 @@ const NavBar = () => {
 
   return (
     <nav className={styles.container}>
-      <Flex gap={4} justify="start">
-        {PATHS.map(([href, name]) => {
-          return (
-            <Link key={href} href={href}>
-              <Heading tag="h6">{name}</Heading>
-              {pathname === href && (
+      <Title>Ethan O&apos;Neal</Title>
+      <Spacer size={0.4} />
+      {PATHS.map(([href, name]) => {
+        const isCurrentPage = pathname === href;
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={isCurrentPage ? styles.selected : ""}
+          >
+            <Caption>{name}</Caption>
+            {/* {pathname === href && (
                 <motion.div
                   className={styles.underline}
                   layoutId="underline"
                 ></motion.div>
-              )}
-            </Link>
-          );
-        })}
-      </Flex>
+              )} */}
+          </Link>
+        );
+      })}
     </nav>
   );
 };
