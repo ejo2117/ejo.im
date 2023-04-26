@@ -10,18 +10,19 @@
 }
 
 .content {
+  display: flex;
   max-width: $media-md;
   // max-width: 37.5rem;
   // margin: auto;
 }
 
 .blobs {
-  background-color: white;
+  // background-color: white;
   height: 400px;
   width: 400px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 0 16px white;
+  // border: 1px solid #ccc;
+  // box-shadow: 0 0 16px white;
   position: relative;
   svg {
     position: absolute;

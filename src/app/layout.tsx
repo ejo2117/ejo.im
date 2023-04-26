@@ -29,9 +29,9 @@ export default function RootLayout({
             pad={4}
           >
             <NavBar />
-            {/* <Flex center pad={4} className={styles.content}>
+            <Flex fullWidth center pad={4} className={styles.content}>
               {children}
-            </Flex> */}
+            </Flex>
           </Flex>
         </main>
       </body>

@@ -9,21 +9,28 @@
   flex-direction: column;
   gap: 0.8rem;
   justify-content: flex-start;
+  flex-shrink: 0;
 
   a {
     width: fit-content;
     opacity: 0.75;
+    transition: 0.1s;
+
+    &:active {
+      opacity: 0.5;
+    }
 
     @media (hover: hover) {
       &:hover {
         transition: 0.3s;
-        opacity: 1;
+        &:not(:active) {
+          opacity: 1;
+        }
       }
 
       &:focus,
       &:focus-visible {
         outline-width: 0;
-        border: 1px solid inherit;
         opacity: 1;
       }
     }
