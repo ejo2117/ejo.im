@@ -12,6 +12,10 @@
 .content {
   display: flex;
   max-width: $media-md;
+
+  > * {
+    gap: 6.4rem;
+  }
   // max-width: 37.5rem;
   // margin: auto;
 }
