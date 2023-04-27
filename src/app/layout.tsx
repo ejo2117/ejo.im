@@ -1,7 +1,6 @@
 import NavBar from "@/components/NavBar";
 import { Flex } from "@/components/ui";
 import "./globals.css";
-import Head from "./head";
 import styles from "./page.module.scss";
 import { Inter } from "@next/font/google";
 import cn from "classnames";
@@ -17,7 +16,6 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <Head />
       <body>
         <main className={classes}>
           <Flex
@@ -28,9 +26,17 @@ export default function RootLayout({
             align="center"
             pad={4}
           >
-            <NavBar />
-            <Flex fullWidth center pad={4} className={styles.content}>
-              {children}
+            <Flex align="center">
+              <NavBar />
+              <Flex
+                fullWidth
+                center
+                pad={0}
+                className={styles.content}
+                style={{ marginTop: "4.2rem" }}
+              >
+                {children}
+              </Flex>
             </Flex>
           </Flex>
         </main>
@@ -38,3 +44,12 @@ export default function RootLayout({
     </html>
   );
 }
+
+export const metadata = {
+  title: "ejo",
+  description: "Ethan's Homepage",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f9f9f9" },
+    { media: "(prefers-color-scheme: dark)", color: "#872e4e" },
+  ],
+};
