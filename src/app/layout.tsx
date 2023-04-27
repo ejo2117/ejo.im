@@ -50,6 +50,6 @@ export const metadata = {
   description: "Ethan's Homepage",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f9f9f9" },
-    { media: "(prefers-color-scheme: dark)", color: "#872e4e" },
+    { media: "(prefers-color-scheme: dark)", color: "#171817" },
   ],
 };
