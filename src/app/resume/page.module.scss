@@ -1,0 +1,17 @@
+.container {
+  li {
+    list-style-type: none;
+    position: relative;
+
+    &::before {
+      content: "•";
+      height: 21px;
+      position: absolute;
+      left: -12px;
+      top: 48%;
+      translate: 0 -50%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

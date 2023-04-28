@@ -8,25 +8,31 @@ import {
   ShopifyBadge,
   TypescriptBadge,
 } from "@/components/ui/Badge/Badge";
+import styles from "./page.module.scss";
 
 export default function Resume() {
   // Return JSX here!
 
   return (
-    <ul>
+    <ul className={styles.container}>
       <li>
         <Caption>
-          Full Stack Developer at <i>Pair Eyewear</i>
+          Full Stack Developer — <i>Pair Eyewear</i>, June 2020 - Present
         </Caption>
       </li>
       <li>
         <Caption>
-          UI/UX Design Intern at <i>Pair Eyewear</i>
+          UI/UX Design Intern — <i>Pair Eyewear</i>, March 2020 - June 2020
         </Caption>
       </li>
       <li>
         <Caption>
-          Co-Owner, Product Developer at <i>Sight</i>
+          Co-Owner, Product Developer — <i>Sight</i>, 2018 - 2020
+        </Caption>
+      </li>
+      <li>
+        <Caption>
+          Team Member — <i>Pret a Manger</i>, 2018 - 2018
         </Caption>
       </li>
     </ul>
