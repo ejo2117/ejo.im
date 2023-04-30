@@ -16,8 +16,8 @@
     opacity: 0.75;
     transition: 0.1s;
 
-    &:active {
-      opacity: 0.5;
+    &:active:not(.selected) {
+      opacity: 0.5 !important;
     }
 
     @media (hover: hover) {
