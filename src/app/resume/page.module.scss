@@ -1,7 +1,10 @@
 .container {
+  width: 100%;
   li {
     list-style-type: none;
     position: relative;
+    display: flex;
+    gap: 0.8rem;
 
     &::before {
       content: "•";
@@ -12,6 +15,10 @@
       translate: 0 -50%;
       display: flex;
       align-items: center;
+    }
+
+    *:last-child {
+      margin-left: auto;
     }
   }
 }

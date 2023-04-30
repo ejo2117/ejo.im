@@ -26,11 +26,12 @@ export default function RootLayout({
             align="center"
             pad={4}
           >
-            <Flex align="center">
+            <Flex align="center" fullWidth>
               <NavBar />
               <Flex
                 fullWidth
-                center
+                align="center"
+                justify="start"
                 pad={0}
                 className={styles.content}
                 style={{ marginTop: "4.2rem" }}
