@@ -18,28 +18,14 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <main className={classes}>
-          <Flex
-            fullHeight
-            className={styles.content}
-            margin={"auto"}
-            justify="start"
-            align="center"
-            pad={4}
-          >
-            <Flex align="center" fullWidth>
+          <section className={styles.frame}>
+            <div className={styles.view}>
               <NavBar />
-              <Flex
-                fullWidth
-                align="center"
-                justify="start"
-                pad={0}
-                className={styles.content}
-                style={{ marginTop: "4.2rem" }}
-              >
+              <div className={styles.content} style={{ marginTop: "4.2rem" }}>
                 {children}
-              </Flex>
-            </Flex>
-          </Flex>
+              </div>
+            </div>
+          </section>
         </main>
       </body>
     </html>

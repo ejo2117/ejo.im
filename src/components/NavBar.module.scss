@@ -6,7 +6,6 @@
 
 .container {
   display: flex;
-  flex-direction: column;
   gap: 0.8rem;
   justify-content: flex-start;
   flex-shrink: 0;
@@ -41,5 +40,9 @@
       text-decoration-thickness: from-font;
       text-underline-position: from-font;
     }
+  }
+
+  @media screen and (min-width: $media-sm) {
+    flex-direction: column;
   }
 }
