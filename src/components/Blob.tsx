@@ -1,4 +1,4 @@
-"use client";
+// Blob.tsx
 
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
 import React, { useEffect, useRef, useState } from "react";
