@@ -19,14 +19,15 @@ type JobProps = {
 const Job = ({ title, company, dates }: JobProps) => {
   return (
     <li>
-      <Caption>{title}</Caption>
-      <Caption className={styles.desktop}> - </Caption>
       <div className={styles.details}>
+        <Caption className={styles.mobile}>{`${title},`}</Caption>
+        <Caption className={styles.desktop}>{title}</Caption>
+        <Caption className={styles.desktop}> - </Caption>
         <Caption>
           <i>{company}</i>
         </Caption>
-        <Caption>{dates}</Caption>
       </div>
+      <Caption>{dates}</Caption>
     </li>
   );
 };
