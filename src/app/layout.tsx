@@ -2,7 +2,7 @@ import NavBar from "@/components/NavBar";
 import { Flex } from "@/components/ui";
 import "./globals.css";
 import styles from "./page.module.scss";
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 import cn from "classnames";
 
 const inter = Inter({ subsets: ["latin"] });

@@ -3,7 +3,7 @@ import { LOREM } from "@/utils/constants";
 import React from "react";
 import { Badge, Body, Flex, Heading, Title } from "../index";
 import styles from "./Cell.module.scss";
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 import { FigmaBadge, SkillBadges } from "../Badge/Badge";
 const inter = Inter({ subsets: ["latin"] });
 

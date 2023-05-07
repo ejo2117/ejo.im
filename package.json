@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.2.3",
     "@radix-ui/react-accessible-icon": "^1.0.2",
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",
