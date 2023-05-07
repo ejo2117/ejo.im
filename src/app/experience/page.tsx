@@ -20,11 +20,13 @@ const Job = ({ title, company, dates }: JobProps) => {
   return (
     <li>
       <Caption>{title}</Caption>
-      <Caption> - </Caption>
-      <Caption>
-        <i>{company}</i>
-      </Caption>
-      <Caption>{dates}</Caption>
+      <Caption className={styles.desktop}> - </Caption>
+      <div className={styles.details}>
+        <Caption>
+          <i>{company}</i>
+        </Caption>
+        <Caption>{dates}</Caption>
+      </div>
     </li>
   );
 };
@@ -34,12 +36,12 @@ export default function Resume() {
     {
       title: "Full Stack Developer",
       company: "Pair Eyewear",
-      dates: "June 2020 - Present",
+      dates: "2020 - Present",
     },
     {
       title: "UI/UX Intern",
       company: "Pair Eyewear",
-      dates: "March 2020 - June 2020",
+      dates: "2020 - 2020",
     },
     {
       title: "Co-Owner, Product Developer",

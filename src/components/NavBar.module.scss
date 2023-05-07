@@ -7,8 +7,10 @@
 .container {
   display: flex;
   gap: 0.8rem;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: baseline;
   flex-shrink: 0;
+  width: 100%;
 
   a {
     width: fit-content;
@@ -42,6 +44,16 @@
     }
   }
 
+  @media screen and (min-width: $media-sm) {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: auto;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 0.8rem;
   @media screen and (min-width: $media-sm) {
     flex-direction: column;
   }

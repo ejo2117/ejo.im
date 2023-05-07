@@ -10,7 +10,7 @@ import styles from "./NavBar.module.scss";
 const PATHS = [
   ["/", "Home"],
   ["/about", "About"],
-  ["/resume", "Experience"],
+  ["/experience", "Experience"],
 ] as const;
 
 const NavBar = () => {
@@ -20,24 +20,26 @@ const NavBar = () => {
     <nav className={styles.container}>
       <Title>Ethan O&apos;Neal</Title>
       <Spacer size={0.4} />
-      {PATHS.map(([href, name]) => {
-        const isCurrentPage = pathname === href;
-        return (
-          <Link
-            key={href}
-            href={href}
-            className={isCurrentPage ? styles.selected : ""}
-          >
-            <Caption>{name}</Caption>
-            {/* {pathname === href && (
+      <div className={styles.links}>
+        {PATHS.map(([href, name]) => {
+          const isCurrentPage = pathname === href;
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={isCurrentPage ? styles.selected : ""}
+            >
+              <Caption>{name}</Caption>
+              {/* {pathname === href && (
                 <motion.div
                   className={styles.underline}
                   layoutId="underline"
                 ></motion.div>
               )} */}
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 };
