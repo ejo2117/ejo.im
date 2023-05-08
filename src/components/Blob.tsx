@@ -6,11 +6,12 @@ import { Path } from "typescript";
 import { Flex } from "./ui";
 import { Poline } from "poline";
 import useTilg from "tilg";
+import CanvasBlob from "./CanvasBlob";
 
 // TYPES
 
 /** A point on our vector that provides context for our animation */
-type Node = {
+export type Node = {
   id: number;
   x: number;
   y: number;
@@ -25,7 +26,7 @@ type Node = {
 };
 
 /** Coordinates for the two arms that allow us to animate a Bezier curve around a Node */
-type BezierControlPoint = {
+export type BezierControlPoint = {
   c1x: number;
   c1y: number;
   c2x: number;
@@ -62,6 +63,8 @@ const Blob = ({
 }: BlobProps) => {
   const OFFSET_X = viewSize / 2 - radius;
   const OFFSET_Y = viewSize / 2 - radius;
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const rotate = (
     cx: number,
@@ -242,7 +245,7 @@ const Blob = ({
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
   const [elapsed, delta] = useAnimationFrame((time) => {
-    if (!pathRef.current) {
+    if (!canvasRef.current) {
       return;
     }
     const [updatedNodes, updatedControlPoints] = animate(
@@ -250,53 +253,55 @@ const Blob = ({
       controlPoints,
       amplitude
     );
+    console.log("yo");
 
     // poline.shiftHue(3);
-    drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+    // drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+
+    console.log(canvasRef.current);
+
+    if (canvasRef.current) {
+      CanvasBlob({
+        ctx: canvasRef.current.getContext("2d")!,
+        nodes,
+        controlPoints,
+      });
+    }
   });
 
-  return (
-    <svg
-      height={viewSize}
-      width={viewSize}
-      style={{ background: "transparent" }}
-    >
-      <defs>
-        <radialGradient
-          id="GradientReflect"
-          cx="0.5"
-          cy="0.5"
-          r={0.4}
-          fx={0.75}
-          fy={0.75}
-          spreadMethod="reflect"
-        >
-          <stop offset="0%" stopColor={poline.colorsCSS[2]} />
-          <stop offset="100%" stopColor={poline.colorsCSS[5]} />
-        </radialGradient>
-        <linearGradient
-          ref={gradientRef}
-          id="gradient"
-          x1={0}
-          y1={0}
-          x2={viewSize}
-          y2={viewSize}
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor={poline.colorsCSS[2]} stopOpacity="0.15" />
-          <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
-        </linearGradient>
-        <filter id="blur">
-          <feGaussianBlur stdDeviation={blurStrength} />
-        </filter>
-      </defs>
-      <path
-        ref={pathRef}
-        filter="url(#blur)"
-        fill="url(#GradientReflect)"
-      ></path>
-    </svg>
-  );
+  return <canvas ref={canvasRef} width={400} height={400}></canvas>;
+
+  // return (
+  //   <svg
+  //     height={viewSize}
+  //     width={viewSize}
+  //     style={{ background: "transparent" }}
+  //   >
+  //     <defs>
+  //       <radialGradient
+  //         id="GradientReflect"
+  //         cx="0.5"
+  //         cy="0.5"
+  //         r={0.4}
+  //         fx={0.75}
+  //         fy={0.75}
+  //         spreadMethod="reflect"
+  //       >
+  //         <stop offset="0%" stopColor={poline.colorsCSS[2]} />
+  //         <stop offset="100%" stopColor={poline.colorsCSS[5]} />
+  //       </radialGradient>
+
+  //       <filter id="blur">
+  //         <feGaussianBlur stdDeviation={blurStrength} />
+  //       </filter>
+  //     </defs>
+  //     <path
+  //       ref={pathRef}
+  //       filter="url(#blur)"
+  //       fill="url(#GradientReflect)"
+  //     ></path>
+  //   </svg>
+  // );
 };
 
 export default Blob;
