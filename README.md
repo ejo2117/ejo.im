@@ -1,1 +1,1 @@
-My personal website, build with [Next.js](https://nextjs.org/).
+My personal website, built with [Next.js](https://nextjs.org/).
