@@ -265,6 +265,7 @@ const Blob = ({
         ctx: canvasRef.current.getContext("2d")!,
         nodes,
         controlPoints,
+        colors: poline.colorsCSS,
       });
     }
   });
