@@ -21,9 +21,7 @@ export default function RootLayout({
           <section className={styles.frame}>
             <div className={styles.view}>
               <NavBar />
-              <div className={styles.content} style={{ marginTop: "4.2rem" }}>
-                {children}
-              </div>
+              <div className={styles.content}>{children}</div>
             </div>
           </section>
         </main>
