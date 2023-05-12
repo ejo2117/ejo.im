@@ -162,6 +162,7 @@ const Blob = ({
     createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
   );
   const [poline, setPoline] = useState(colors);
+  const [running, setRunning] = useState(false);
 
   const pathRef = useRef<SVGPathElement>(null);
   const gradientRef = useRef<SVGLinearGradientElement>(null);
@@ -242,10 +243,21 @@ const Blob = ({
     );
   };
 
+  // useEffect(() => {
+  //   if (canvasRef.current) {
+  //     CanvasBlob({
+  //       ctx: canvasRef.current.getContext("2d")!,
+  //       nodes,
+  //       controlPoints,
+  //       colors: poline.colorsCSS,
+  //     });
+  //   }
+  // }, []);
+
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
   const [elapsed, delta] = useAnimationFrame((time) => {
-    if (!canvasRef.current) {
+    if (!pathRef.current) {
       return;
     }
     const [updatedNodes, updatedControlPoints] = animate(
@@ -253,56 +265,60 @@ const Blob = ({
       controlPoints,
       amplitude
     );
-    console.log("yo");
 
     // poline.shiftHue(3);
-    // drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+    drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
 
-    console.log(canvasRef.current);
-
-    if (canvasRef.current) {
-      CanvasBlob({
-        ctx: canvasRef.current.getContext("2d")!,
-        nodes,
-        controlPoints,
-        colors: poline.colorsCSS,
-      });
-    }
+    // if (canvasRef.current) {
+    //   CanvasBlob({
+    //     ctx: canvasRef.current.getContext("2d")!,
+    //     nodes,
+    //     controlPoints,
+    //     colors: poline.colorsCSS,
+    //   });
+    // }
   });
 
-  return <canvas ref={canvasRef} width={400} height={400}></canvas>;
-
   // return (
-  //   <svg
-  //     height={viewSize}
-  //     width={viewSize}
-  //     style={{ background: "transparent" }}
-  //   >
-  //     <defs>
-  //       <radialGradient
-  //         id="GradientReflect"
-  //         cx="0.5"
-  //         cy="0.5"
-  //         r={0.4}
-  //         fx={0.75}
-  //         fy={0.75}
-  //         spreadMethod="reflect"
-  //       >
-  //         <stop offset="0%" stopColor={poline.colorsCSS[2]} />
-  //         <stop offset="100%" stopColor={poline.colorsCSS[5]} />
-  //       </radialGradient>
-
-  //       <filter id="blur">
-  //         <feGaussianBlur stdDeviation={blurStrength} />
-  //       </filter>
-  //     </defs>
-  //     <path
-  //       ref={pathRef}
-  //       filter="url(#blur)"
-  //       fill="url(#GradientReflect)"
-  //     ></path>
-  //   </svg>
+  //   <canvas
+  //     ref={canvasRef}
+  //     width={400}
+  //     height={400}
+  //     onClick={() => setRunning((prev) => !prev)}
+  //   ></canvas>
   // );
+
+  return (
+    <svg
+      height={viewSize}
+      width={viewSize}
+      style={{ background: "transparent" }}
+    >
+      <defs>
+        <radialGradient
+          id="GradientReflect"
+          cx="0.5"
+          cy="0.5"
+          r={0.4}
+          fx={0.75}
+          fy={0.75}
+          spreadMethod="reflect"
+        >
+          <stop offset="0%" stopColor={poline.colorsCSS[2]} />
+          <stop offset="100%" stopColor={poline.colorsCSS[5]} />
+        </radialGradient>
+
+        <filter id="blur">
+          <feGaussianBlur stdDeviation={blurStrength} />
+        </filter>
+      </defs>
+      <path
+        ref={pathRef}
+        filter="url(#blur)"
+        fill="url(#GradientReflect)"
+      ></path>
+    </svg>
+  );
 };
 
 export default Blob;
