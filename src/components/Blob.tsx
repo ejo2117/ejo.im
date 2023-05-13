@@ -1,3 +1,4 @@
+"use client";
 // Blob.tsx
 
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
