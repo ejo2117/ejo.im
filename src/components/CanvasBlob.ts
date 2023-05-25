@@ -5,11 +5,13 @@ const CanvasBlob = ({
   nodes,
   controlPoints,
   colors,
+  radius,
 }: {
   ctx: CanvasRenderingContext2D;
   nodes: Node[];
   controlPoints: BezierControlPoint[];
   colors: string[];
+  radius: number;
 }) => {
   ctx.clearRect(0, 0, 400, 400);
   ctx.filter = "blur(8px)";
@@ -21,7 +23,14 @@ const CanvasBlob = ({
     const cp2 = controlPoints.at(i)!;
     ctx.bezierCurveTo(cp1.c2x, cp1.c2y, cp2.c1x, cp2.c1y, node.x, node.y);
   });
-  const gradient = ctx.createConicGradient(5, 5, 4);
+  const gradient = ctx.createRadialGradient(
+    radius * (0.5 + 0.25 * (radius / 200)),
+    radius * (0.5 + 0.25 * (radius / 200)),
+    0,
+    radius * 0.5,
+    radius * 0.5,
+    radius * (0.5 + 0.3 * (radius / 200))
+  );
   gradient.addColorStop(0, colors[2]);
   gradient.addColorStop(1, colors[5]);
 

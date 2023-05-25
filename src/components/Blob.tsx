@@ -257,7 +257,7 @@ const Blob = ({
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
   const [elapsed, delta] = useAnimationFrame((time) => {
-    if (!pathRef.current) {
+    if (!canvasRef.current) {
       return;
     }
     const [updatedNodes, updatedControlPoints] = animate(
@@ -267,26 +267,27 @@ const Blob = ({
     );
 
     // poline.shiftHue(3);
-    drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+    // drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
 
-    // if (canvasRef.current) {
-    //   CanvasBlob({
-    //     ctx: canvasRef.current.getContext("2d")!,
-    //     nodes,
-    //     controlPoints,
-    //     colors: poline.colorsCSS,
-    //   });
-    // }
+    if (canvasRef.current) {
+      CanvasBlob({
+        ctx: canvasRef.current.getContext("2d")!,
+        nodes,
+        controlPoints,
+        colors: poline.colorsCSS,
+        radius,
+      });
+    }
   });
 
-  // return (
-  //   <canvas
-  //     ref={canvasRef}
-  //     width={400}
-  //     height={400}
-  //     onClick={() => setRunning((prev) => !prev)}
-  //   ></canvas>
-  // );
+  return (
+    <canvas
+      ref={canvasRef}
+      width={400}
+      height={400}
+      onClick={() => setRunning((prev) => !prev)}
+    ></canvas>
+  );
 
   return (
     <svg
