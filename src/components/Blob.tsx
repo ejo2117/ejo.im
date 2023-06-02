@@ -298,10 +298,10 @@ const Blob = ({
       <defs>
         <radialGradient
           id="GradientReflect"
-          cx="0.5"
+          cx="0.5" // ending circle
           cy="0.5"
-          r={0.4}
-          fx={0.75}
+          r={0.4} // end circle radius
+          fx={0.75} // start circle, with default radius of 0
           fy={0.75}
           spreadMethod="reflect"
         >
