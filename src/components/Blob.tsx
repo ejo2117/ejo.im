@@ -1,7 +1,13 @@
 // Blob.tsx
 
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Path } from "typescript";
 import { Flex } from "./ui";
 import { Poline } from "poline";
@@ -80,87 +86,100 @@ const Blob = ({
     return [nx, ny] as const;
   };
 
-  const createNodes = (radius: number, offsetX: number, offsetY: number) => {
-    let nodes: Node[] = [],
-      width = radius * 2,
-      height = radius * 2,
-      angle,
-      x,
-      y;
-
-    for (let i = 0; i < points; i++) {
-      angle = (i / (points / 2)) * Math.PI;
-      x = radius * Math.cos(angle) + width / 2;
-      y = radius * Math.sin(angle) + width / 2;
-      nodes.push({
-        id: i,
-        x: x + offsetX,
-        y: y + offsetY,
-        prevX: x + offsetX,
-        prevY: y + offsetY,
-        nextX: x + offsetX,
-        nextY: y + offsetY,
-        baseX: x + offsetX,
-        baseY: y + offsetY,
+  const createNodes = useCallback(
+    (radius: number, offsetX: number, offsetY: number) => {
+      let nodes: Node[] = [],
+        width = radius * 2,
+        height = radius * 2,
         angle,
-        debug: {},
-      });
-    }
+        x,
+        y;
 
-    return nodes;
-  };
-
-  const createControlPoints = (
-    nodes: Node[],
-    radius: number,
-    offsetX: number,
-    offsetY: number
-  ) => {
-    // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
-    const idealControlPointDistance =
-      (4 / 3) * Math.tan(Math.PI / (2 * points)) * radius;
-
-    const cp0 = {
-      c1x: nodes[0].x,
-      c1y: nodes[0].y - idealControlPointDistance,
-      c2x: nodes[0].x,
-      c2y: nodes[0].y + idealControlPointDistance,
-    };
-
-    return nodes.map<BezierControlPoint>((node, i) => {
-      if (i === 0) {
-        return cp0;
+      for (let i = 0; i < points; i++) {
+        angle = (i / (points / 2)) * Math.PI;
+        x = radius * Math.cos(angle) + width / 2;
+        y = radius * Math.sin(angle) + width / 2;
+        nodes.push({
+          id: i,
+          x: x + offsetX,
+          y: y + offsetY,
+          prevX: x + offsetX,
+          prevY: y + offsetY,
+          nextX: x + offsetX,
+          nextY: y + offsetY,
+          baseX: x + offsetX,
+          baseY: y + offsetY,
+          angle,
+          debug: {},
+        });
       }
 
-      const angle = -node.angle;
-      const rotatedC1 = rotate(
-        radius + offsetX,
-        radius + offsetY,
-        cp0.c1x,
-        cp0.c1y,
-        angle
-      );
-      const rotatedC2 = rotate(
-        radius + offsetX,
-        radius + offsetY,
-        cp0.c2x,
-        cp0.c2y,
-        angle
-      );
-
-      return {
-        c1x: rotatedC1[0],
-        c1y: rotatedC1[1],
-        c2x: rotatedC2[0],
-        c2y: rotatedC2[1],
-      };
-    });
-  };
-
-  const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
-  const [controlPoints, setControlPoints] = useState(
-    createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
+      return nodes;
+    },
+    [points]
   );
+
+  const createControlPoints = useCallback(
+    (nodes: Node[], radius: number, offsetX: number, offsetY: number) => {
+      // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
+      const idealControlPointDistance =
+        (4 / 3) * Math.tan(Math.PI / (2 * points)) * radius;
+
+      const cp0 = {
+        c1x: nodes[0].x,
+        c1y: nodes[0].y - idealControlPointDistance,
+        c2x: nodes[0].x,
+        c2y: nodes[0].y + idealControlPointDistance,
+      };
+
+      return nodes.map<BezierControlPoint>((node, i) => {
+        if (i === 0) {
+          return cp0;
+        }
+
+        const angle = -node.angle;
+        const rotatedC1 = rotate(
+          radius + offsetX,
+          radius + offsetY,
+          cp0.c1x,
+          cp0.c1y,
+          angle
+        );
+        const rotatedC2 = rotate(
+          radius + offsetX,
+          radius + offsetY,
+          cp0.c2x,
+          cp0.c2y,
+          angle
+        );
+
+        return {
+          c1x: rotatedC1[0],
+          c1y: rotatedC1[1],
+          c2x: rotatedC2[0],
+          c2y: rotatedC2[1],
+        };
+      });
+    },
+    [points]
+  );
+
+  // const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
+
+  const nodes = useMemo(
+    () => createNodes(radius, OFFSET_X, OFFSET_Y),
+    [OFFSET_X, OFFSET_Y, createNodes, radius]
+  );
+
+  // const [controlPoints, setControlPoints] = useState(
+  //   createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
+  // );
+
+  const controlPoints = useMemo(
+    () => createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y),
+    [OFFSET_X, OFFSET_Y, createControlPoints, nodes, radius]
+  );
+
   const [poline, setPoline] = useState(colors);
   const [running, setRunning] = useState(false);
 
@@ -243,20 +262,9 @@ const Blob = ({
     );
   };
 
-  // useEffect(() => {
-  //   if (canvasRef.current) {
-  //     CanvasBlob({
-  //       ctx: canvasRef.current.getContext("2d")!,
-  //       nodes,
-  //       controlPoints,
-  //       colors: poline.colorsCSS,
-  //     });
-  //   }
-  // }, []);
-
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
-  const [elapsed, delta] = useAnimationFrame((time) => {
+  const [elapsed, delta, animationRef] = useAnimationFrame((time) => {
     if (!canvasRef.current) {
       return;
     }
@@ -279,6 +287,21 @@ const Blob = ({
       });
     }
   });
+
+  useEffect(() => {
+    // if (canvasRef.current) {
+    //   CanvasBlob({
+    //     ctx: canvasRef.current.getContext("2d")!,
+    //     nodes,
+    //     controlPoints,
+    //     colors: poline.colorsCSS,
+    //   });
+    // }
+    const id = animationRef.current;
+    return () => {
+      animationRef.current && window.cancelAnimationFrame(animationRef.current);
+    };
+  }, [animationRef]);
 
   return (
     <canvas

@@ -51,7 +51,7 @@ const CanvasBlob = ({
     0,
     centroid[0],
     centroid[1],
-    radius * 2.5
+    radius
   );
   gradient.addColorStop(0, colors[2]);
   gradient.addColorStop(1, colors[5]);

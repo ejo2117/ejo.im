@@ -38,7 +38,7 @@ const useAnimationFrame = (
     };
   }, [runCondition, step]);
 
-  return [timeElapsed, deltaTime] as const;
+  return [timeElapsed, deltaTime, requestRef] as const;
 };
 
 export { useAnimationFrame };
