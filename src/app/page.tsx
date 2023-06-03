@@ -10,8 +10,8 @@ export default async function Home() {
     <Flex column center gap={4}>
       <div className={styles.blobs}>
         <Blob colors={poline} blurStrength={8} points={4} />
-        <Blob colors={poline} radius={60} amplitude={15} blurStrength={1} />
-        <Blob colors={poline} radius={110} points={6} />
+        <Blob colors={poline} radius={60} amplitude={12} blurStrength={1} />
+        <Blob colors={poline} radius={110} points={8} amplitude={20} />
       </div>
     </Flex>
   );

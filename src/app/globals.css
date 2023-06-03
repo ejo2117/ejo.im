@@ -122,3 +122,9 @@ a {
     color-scheme: dark;
   }
 }
+
+canvas {
+  filter: blur(8px);
+  position: absolute;
+  /* border: 1px solid black; */
+}

@@ -1,16 +1,23 @@
 // Blob.tsx
 
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Path } from "typescript";
 import { Flex } from "./ui";
 import { Poline } from "poline";
 import useTilg from "tilg";
+import CanvasBlob from "./CanvasBlob";
 
 // TYPES
 
 /** A point on our vector that provides context for our animation */
-type Node = {
+export type Node = {
   id: number;
   x: number;
   y: number;
@@ -25,7 +32,7 @@ type Node = {
 };
 
 /** Coordinates for the two arms that allow us to animate a Bezier curve around a Node */
-type BezierControlPoint = {
+export type BezierControlPoint = {
   c1x: number;
   c1y: number;
   c2x: number;
@@ -63,6 +70,8 @@ const Blob = ({
   const OFFSET_X = viewSize / 2 - radius;
   const OFFSET_Y = viewSize / 2 - radius;
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const rotate = (
     cx: number,
     cy: number,
@@ -77,88 +86,102 @@ const Blob = ({
     return [nx, ny] as const;
   };
 
-  const createNodes = (radius: number, offsetX: number, offsetY: number) => {
-    let nodes: Node[] = [],
-      width = radius * 2,
-      height = radius * 2,
-      angle,
-      x,
-      y;
-
-    for (let i = 0; i < points; i++) {
-      angle = (i / (points / 2)) * Math.PI;
-      x = radius * Math.cos(angle) + width / 2;
-      y = radius * Math.sin(angle) + width / 2;
-      nodes.push({
-        id: i,
-        x: x + offsetX,
-        y: y + offsetY,
-        prevX: x + offsetX,
-        prevY: y + offsetY,
-        nextX: x + offsetX,
-        nextY: y + offsetY,
-        baseX: x + offsetX,
-        baseY: y + offsetY,
+  const createNodes = useCallback(
+    (radius: number, offsetX: number, offsetY: number) => {
+      let nodes: Node[] = [],
+        width = radius * 2,
+        height = radius * 2,
         angle,
-        debug: {},
-      });
-    }
+        x,
+        y;
 
-    return nodes;
-  };
-
-  const createControlPoints = (
-    nodes: Node[],
-    radius: number,
-    offsetX: number,
-    offsetY: number
-  ) => {
-    // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
-    const idealControlPointDistance =
-      (4 / 3) * Math.tan(Math.PI / (2 * points)) * radius;
-
-    const cp0 = {
-      c1x: nodes[0].x,
-      c1y: nodes[0].y - idealControlPointDistance,
-      c2x: nodes[0].x,
-      c2y: nodes[0].y + idealControlPointDistance,
-    };
-
-    return nodes.map<BezierControlPoint>((node, i) => {
-      if (i === 0) {
-        return cp0;
+      for (let i = 0; i < points; i++) {
+        angle = (i / (points / 2)) * Math.PI;
+        x = radius * Math.cos(angle) + width / 2;
+        y = radius * Math.sin(angle) + width / 2;
+        nodes.push({
+          id: i,
+          x: x + offsetX,
+          y: y + offsetY,
+          prevX: x + offsetX,
+          prevY: y + offsetY,
+          nextX: x + offsetX,
+          nextY: y + offsetY,
+          baseX: x + offsetX,
+          baseY: y + offsetY,
+          angle,
+          debug: {},
+        });
       }
 
-      const angle = -node.angle;
-      const rotatedC1 = rotate(
-        radius + offsetX,
-        radius + offsetY,
-        cp0.c1x,
-        cp0.c1y,
-        angle
-      );
-      const rotatedC2 = rotate(
-        radius + offsetX,
-        radius + offsetY,
-        cp0.c2x,
-        cp0.c2y,
-        angle
-      );
-
-      return {
-        c1x: rotatedC1[0],
-        c1y: rotatedC1[1],
-        c2x: rotatedC2[0],
-        c2y: rotatedC2[1],
-      };
-    });
-  };
-
-  const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
-  const [controlPoints, setControlPoints] = useState(
-    createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
+      return nodes;
+    },
+    [points]
   );
+
+  const createControlPoints = useCallback(
+    (nodes: Node[], radius: number, offsetX: number, offsetY: number) => {
+      // https://stackoverflow.com/questions/1734745/how-to-create-circle-with-b%C3%A9zier-curves
+      const idealControlPointDistance =
+        (4 / 3) * Math.tan(Math.PI / (2 * points)) * radius;
+
+      const cp0 = {
+        c1x: nodes[0].x,
+        c1y: nodes[0].y - idealControlPointDistance,
+        c2x: nodes[0].x,
+        c2y: nodes[0].y + idealControlPointDistance,
+      };
+
+      return nodes.map<BezierControlPoint>((node, i) => {
+        if (i === 0) {
+          return cp0;
+        }
+
+        const angle = -node.angle;
+        const rotatedC1 = rotate(
+          radius + offsetX,
+          radius + offsetY,
+          cp0.c1x,
+          cp0.c1y,
+          angle
+        );
+        const rotatedC2 = rotate(
+          radius + offsetX,
+          radius + offsetY,
+          cp0.c2x,
+          cp0.c2y,
+          angle
+        );
+
+        return {
+          c1x: rotatedC1[0],
+          c1y: rotatedC1[1],
+          c2x: rotatedC2[0],
+          c2y: rotatedC2[1],
+        };
+      });
+    },
+    [points]
+  );
+
+  // const [nodes, setNodes] = useState(createNodes(radius, OFFSET_X, OFFSET_Y));
+
+  const nodes = useMemo(
+    () => createNodes(radius, OFFSET_X, OFFSET_Y),
+    [OFFSET_X, OFFSET_Y, createNodes, radius]
+  );
+
+  // const [controlPoints, setControlPoints] = useState(
+  //   createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y)
+  // );
+
+  const controlPoints = useMemo(
+    () => createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y),
+    [OFFSET_X, OFFSET_Y, createControlPoints, nodes, radius]
+  );
+
   const [poline, setPoline] = useState(colors);
+  const [running, setRunning] = useState(false);
 
   const pathRef = useRef<SVGPathElement>(null);
   const gradientRef = useRef<SVGLinearGradientElement>(null);
@@ -241,8 +264,8 @@ const Blob = ({
 
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
-  const [elapsed, delta] = useAnimationFrame((time) => {
-    if (!pathRef.current) {
+  const [elapsed, delta, animationRef] = useAnimationFrame((time) => {
+    if (!canvasRef.current) {
       return;
     }
     const [updatedNodes, updatedControlPoints] = animate(
@@ -252,8 +275,42 @@ const Blob = ({
     );
 
     // poline.shiftHue(3);
-    drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+    // drawBlobPath(updatedNodes, updatedControlPoints, pathRef.current);
+
+    if (canvasRef.current) {
+      CanvasBlob({
+        ctx: canvasRef.current.getContext("2d")!,
+        nodes,
+        controlPoints,
+        colors: poline.colorsCSS,
+        radius,
+      });
+    }
   });
+
+  useEffect(() => {
+    // if (canvasRef.current) {
+    //   CanvasBlob({
+    //     ctx: canvasRef.current.getContext("2d")!,
+    //     nodes,
+    //     controlPoints,
+    //     colors: poline.colorsCSS,
+    //   });
+    // }
+    const id = animationRef.current;
+    return () => {
+      animationRef.current && window.cancelAnimationFrame(animationRef.current);
+    };
+  }, [animationRef]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={400}
+      height={400}
+      onClick={() => setRunning((prev) => !prev)}
+    ></canvas>
+  );
 
   return (
     <svg
@@ -264,28 +321,17 @@ const Blob = ({
       <defs>
         <radialGradient
           id="GradientReflect"
-          cx="0.5"
+          cx="0.5" // ending circle
           cy="0.5"
-          r={0.4}
-          fx={0.75}
+          r={0.4} // end circle radius
+          fx={0.75} // start circle, with default radius of 0
           fy={0.75}
           spreadMethod="reflect"
         >
           <stop offset="0%" stopColor={poline.colorsCSS[2]} />
           <stop offset="100%" stopColor={poline.colorsCSS[5]} />
         </radialGradient>
-        <linearGradient
-          ref={gradientRef}
-          id="gradient"
-          x1={0}
-          y1={0}
-          x2={viewSize}
-          y2={viewSize}
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor={poline.colorsCSS[2]} stopOpacity="0.15" />
-          <stop offset="1" stopColor={poline.colorsCSS[5]} stopOpacity="0.29" />
-        </linearGradient>
+
         <filter id="blur">
           <feGaussianBlur stdDeviation={blurStrength} />
         </filter>
