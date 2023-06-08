@@ -3,6 +3,7 @@ import styles from "./page.module.scss";
 import { Body, Flex } from "@/components/ui";
 import Blob from "@/components/Blob";
 import { Poline } from "poline";
+import Audio from "@/components/Audio";
 
 export default async function Home() {
   const poline = new Poline();
@@ -13,6 +14,8 @@ export default async function Home() {
         <Blob colors={poline} radius={60} amplitude={12} blurStrength={1} />
         <Blob colors={poline} radius={110} points={8} amplitude={20} />
       </div>
+
+      <Audio />
     </Flex>
   );
 }
