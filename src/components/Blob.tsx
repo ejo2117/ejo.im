@@ -3,6 +3,7 @@
 import { useAnimationFrame } from "@/lib/hooks/useAnimationFrame";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -13,6 +14,7 @@ import { Flex } from "./ui";
 import { Poline } from "poline";
 import useTilg from "tilg";
 import CanvasBlob from "./CanvasBlob";
+import { AudioVisContext } from "./Audio";
 
 // TYPES
 
@@ -67,6 +69,7 @@ const Blob = ({
   blurStrength = 8,
   points = TOTAL_NODES,
 }: BlobProps) => {
+  const { element, fileSrc, freqs } = useContext(AudioVisContext);
   const OFFSET_X = viewSize / 2 - radius;
   const OFFSET_Y = viewSize / 2 - radius;
 
@@ -191,6 +194,8 @@ const Blob = ({
     controlPoints: BezierControlPoint[],
     amplitude: number
   ) => {
+    console.log({ freqs });
+
     nodes.forEach((node, i) => {
       if (Math.abs(nodes[i].nextX - nodes[i].x) < 10) {
         const shiftX =
