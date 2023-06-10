@@ -13,6 +13,7 @@ import React, {
 
 import useTilg from "tilg";
 import { JsxAttribute, JsxElement } from "typescript";
+import CanvasBlob from "./CanvasBlob";
 import { Flex } from "./ui";
 
 const ALLOWED_PRESCRIPTION_UPLOAD_EXTENSIONS = ["mp3", "wav"] as const;
@@ -69,7 +70,7 @@ const Audio = () => {
       const S = context.createMediaElementSource(audioPlayer.current);
       const G = context.createGain();
       G.gain.value = 0.8;
-      A.fftSize = 256;
+      A.fftSize = 256 * 2;
       S.connect(A);
       S.connect(G);
       A.connect(context.destination);
@@ -179,7 +180,12 @@ const Audio = () => {
         </div>
       )}
       <Flex column gap={4} center fullHeight fullWidth position="relative">
-        <audio ref={audioPlayer} src={audioFileSrc} controls>
+        <audio
+          style={{ visibility: "hidden" }}
+          ref={audioPlayer}
+          src={audioFileSrc}
+          controls
+        >
           <source src={audioFileSrc} type={"audio/mpeg"}></source>
         </audio>
         <input
@@ -189,9 +195,9 @@ const Audio = () => {
           onChange={handleFileChange}
         />
 
-        <button onClick={togglePlayPause}>
+        {/* <button onClick={togglePlayPause}>
           {isPlaying ? "PAUSE" : "PLAY"}
-        </button>
+        </button> */}
         {/* {children} */}
         <canvas
           ref={canvasRef}

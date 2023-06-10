@@ -69,7 +69,6 @@ const Blob = ({
   blurStrength = 8,
   points = TOTAL_NODES,
 }: BlobProps) => {
-  const { element, fileSrc, freqs } = useContext(AudioVisContext);
   const OFFSET_X = viewSize / 2 - radius;
   const OFFSET_Y = viewSize / 2 - radius;
 

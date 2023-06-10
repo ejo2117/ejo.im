@@ -12,6 +12,7 @@ const CanvasBlob = ({
   controlPoints: BezierControlPoint[];
   colors: string[];
   radius: number;
+  audioDataArray?: Uint8Array;
 }) => {
   ctx.clearRect(0, 0, 400, 400);
   ctx.filter = "blur(8px)";
