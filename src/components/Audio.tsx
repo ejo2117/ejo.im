@@ -32,6 +32,7 @@ const ALLOWED_PRESCRIPTION_UPLOAD_EXTENSIONS = ["mp3", "wav"] as const;
 const Audio = () => {
   // state
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
 
@@ -48,12 +49,14 @@ const Audio = () => {
 
   useEffect(() => {
     // setup on mount
-    console.log("creating context");
-    if (!audioContext.current && typeof window !== "undefined") {
-      audioContext.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+    if (hasInteracted) {
+      console.log("creating context");
+      if (!audioContext.current && typeof window !== "undefined") {
+        audioContext.current = new (window.AudioContext ||
+          (window as any).webkitAudioContext)();
+      }
     }
-  }, []);
+  }, [hasInteracted]);
 
   useEffect(() => {
     // setup with context
@@ -61,30 +64,38 @@ const Audio = () => {
 
     const { current: context } = audioContext;
 
-    if (context && !analyser.current) {
+    if (context && !analyser.current && audioPlayer.current) {
       const A = context.createAnalyser();
-      const S = context.createMediaElementSource(audioPlayer.current!);
+      const S = context.createMediaElementSource(audioPlayer.current);
+      const G = context.createGain();
+      G.gain.value = 0.8;
       A.fftSize = 256;
       S.connect(A);
+      S.connect(G);
       A.connect(context.destination);
+      G.connect(context.destination);
       sourceNode.current = S;
       analyser.current = A;
     } else {
       console.log("no context");
     }
-  }, [audioContext]);
+  }, [audioContext, audioPlayer, hasInteracted]);
 
-  const whilePlaying = () => {
+  useEffect(() => {
+    audioPlayer.current?.pause();
+    audioPlayer.current?.load();
+  }, [audioFileSrc, audioPlayer]);
+
+  const whilePlaying = useCallback(() => {
     const { current: context } = audioContext;
     const { current: visualizer } = canvasRef;
-    console.log({ context, visualizer });
     if (!(context && visualizer)) return;
 
-    console.log("playing");
+    const bufferLength = analyser.current?.frequencyBinCount ?? 0;
 
-    const bufferLength = analyser.current!.frequencyBinCount;
     const audioDataArray = new Uint8Array(bufferLength);
     analyser.current!.getByteTimeDomainData(audioDataArray);
+    console.log({ bufferLength, audioDataArrayExample: audioDataArray[0] });
 
     const width = visualizer.width;
     const height = visualizer.height;
@@ -94,10 +105,8 @@ const Audio = () => {
     canvasContext.clearRect(0, 0, width, height);
     let x = 0;
     audioDataArray.forEach((item, index, array) => {
-      console.log(item);
-
-      const y = (item / 255) * height * 1.1;
-      canvasContext.strokeStyle = "#000";
+      const y = (item / 255) * height;
+      canvasContext.strokeStyle = "#fff";
       x = x + barWidth;
       canvasContext.beginPath();
       canvasContext.lineCap = "round";
@@ -108,16 +117,19 @@ const Audio = () => {
     });
     animation.current = window.requestAnimationFrame(whilePlaying);
     // console.log({ audioDataArray });
-  };
+  }, []);
 
   const togglePlayPause = () => {
     if (!audioPlayer.current) return;
     const prevValue = isPlaying;
     setIsPlaying(!prevValue);
     if (!prevValue) {
+      console.log("playing!", { player: audioPlayer.current.src });
+
       audioPlayer.current.play();
       animation.current = requestAnimationFrame(whilePlaying);
     } else {
+      console.log("pausing...");
       audioPlayer.current.pause();
       cancelAnimationFrame(animation.current!);
     }
@@ -132,13 +144,20 @@ const Audio = () => {
       console.log("browser does not support Blob URLs");
     }
 
+    const fileObjectURL = blob.createObjectURL(file);
+    console.log("change on input#file triggered");
+
+    console.log("File name: " + file.name);
+    console.log("File type: " + file.type);
+    console.log("File BlobURL: " + fileObjectURL);
+
     try {
       const extension = file.name?.match(/\.([0-9a-z]+)$/i)?.[1]?.toLowerCase();
       //@ts-ignore
       if (ALLOWED_PRESCRIPTION_UPLOAD_EXTENSIONS.includes(extension ?? "")) {
         // if (audioRef.current) audioRef.current = blob.createObjectURL(file);
         // setAudioFile(file);
-        setAudioFileSrc(blob.createObjectURL(file));
+        setAudioFileSrc(fileObjectURL);
       } else {
         console.error(
           `Invalid file type. Please upload a file with one of the following extensions: ${ALLOWED_PRESCRIPTION_UPLOAD_EXTENSIONS.join(
@@ -153,27 +172,36 @@ const Audio = () => {
   };
 
   return (
-    <Flex column gap={4} center fullHeight fullWidth position="relative">
-      <audio ref={audioPlayer} controls>
-        <source src={audioFileSrc} type={"audio/mpeg"}></source>
-      </audio>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="audio/*"
-        onChange={handleFileChange}
-      />
+    <>
+      {!hasInteracted && (
+        <div className="seal">
+          <button onClick={() => setHasInteracted(true)}>Push to Start</button>
+        </div>
+      )}
+      <Flex column gap={4} center fullHeight fullWidth position="relative">
+        <audio ref={audioPlayer} src={audioFileSrc} controls>
+          <source src={audioFileSrc} type={"audio/mpeg"}></source>
+        </audio>
+        <input
+          ref={inputRef}
+          type="file"
+          accept="audio/*"
+          onChange={handleFileChange}
+        />
 
-      <button onClick={togglePlayPause}>{isPlaying ? "PAUSE" : "PLAY"}</button>
-      {/* {children} */}
-      <canvas
-        ref={canvasRef}
-        width={400}
-        height={400}
-        style={{ position: "static", border: "1px solid black" }}
-        onClick={togglePlayPause}
-      ></canvas>
-    </Flex>
+        <button onClick={togglePlayPause}>
+          {isPlaying ? "PAUSE" : "PLAY"}
+        </button>
+        {/* {children} */}
+        <canvas
+          ref={canvasRef}
+          width={400}
+          height={400}
+          style={{ position: "static", border: "1px solid black" }}
+          onClick={togglePlayPause}
+        ></canvas>
+      </Flex>
+    </>
   );
 };
 

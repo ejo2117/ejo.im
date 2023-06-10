@@ -128,3 +128,16 @@ canvas {
   position: absolute;
   /* border: 1px solid black; */
 }
+
+.seal {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  backdrop-filter: blur(8px);
+  pointer-events: all !important;
+  z-index: 10;
+}
