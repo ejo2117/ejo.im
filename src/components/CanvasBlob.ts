@@ -6,6 +6,8 @@ const CanvasBlob = ({
   controlPoints,
   colors,
   radius,
+  audioDataArray,
+  peaks,
 }: {
   ctx: CanvasRenderingContext2D;
   nodes: Node[];
@@ -13,9 +15,9 @@ const CanvasBlob = ({
   colors: string[];
   radius: number;
   audioDataArray?: Uint8Array;
+  peaks?: number[];
 }) => {
-  ctx.clearRect(0, 0, 400, 400);
-  ctx.filter = "blur(8px)";
+  // ctx.filter = "blur(8px)";
 
   ctx.beginPath();
   ctx.moveTo(nodes.at(-1)!.x, nodes.at(-1)!.y);
@@ -24,10 +26,6 @@ const CanvasBlob = ({
     const cp2 = controlPoints.at(i)!;
     ctx.bezierCurveTo(cp1.c2x, cp1.c2y, cp2.c1x, cp2.c1y, node.x, node.y);
   });
-
-  // nodes.forEach((node, i) => {
-  //   ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
-  // });
 
   const centroid = nodes.reduce(
     (result, current, i, a) => {
@@ -60,7 +58,25 @@ const CanvasBlob = ({
   ctx.fillStyle = gradient;
   ctx.fill();
 
+  //  TODO - REMOVE
+  // DEBUG - AUDIO VISUALIZER
+  // if (audioDataArray) {
+  //   ctx.font = "48px serif";
+  //   ctx.fillText(JSON.stringify(audioDataArray[0]), 10, 50);
+  // }
+  // if (peaks) {
+  //   ctx.font = "48px serif";
+  //   ctx.fillText(JSON.stringify(peaks), 110, 50);
+  // }
+
+  // document.getElementById("logger").textContent = JSON.stringify(peaks);
+
+  // DEBUG - NODE OUTLINE
+
   // ctx.fillStyle = "#000";
+  // nodes.forEach((node, i) => {
+  //   ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
+  // });
   // ctx.arc(centroid[0], centroid[1], 5, 0, 2 * Math.PI);
   // ctx.arc(focal[0], focal[1], 5, 0, 2 * Math.PI);
   // ctx.strokeStyle = "#fff";
