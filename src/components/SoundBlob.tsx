@@ -172,9 +172,25 @@ const Blob = ({
     [OFFSET_X, OFFSET_Y, createNodes, radius]
   );
 
+  const innerNodes = useMemo(
+    () => createNodes(110, viewSize / 2 - 110, viewSize / 2 - 110),
+    [createNodes, viewSize]
+  );
+
   const controlPoints = useMemo(
     () => createControlPoints(nodes, radius, OFFSET_X, OFFSET_Y),
     [OFFSET_X, OFFSET_Y, createControlPoints, nodes, radius]
+  );
+
+  const innerControlPoints = useMemo(
+    () =>
+      createControlPoints(
+        innerNodes,
+        110,
+        viewSize / 2 - 110,
+        viewSize / 2 - 110
+      ),
+    [createControlPoints, innerNodes, viewSize]
   );
 
   const [poline, setPoline] = useState(colors);
@@ -252,22 +268,41 @@ const Blob = ({
 
     const canvasContext = visualizer.getContext("2d")!;
 
-    const [updatedNodes, updatedControlPoints] = animate(
+    const [updatedNodes, updatedControlPoints, peaks] = animate(
       nodes,
       controlPoints,
       amplitude,
       audioDataArray
     );
 
+    const innerBlob = animate(
+      innerNodes,
+      innerControlPoints,
+      20,
+      audioDataArray
+    );
+
     // poline.shiftHue(3);
 
     if (canvasRef.current) {
+      canvasRef.current.getContext("2d")!.clearRect(0, 0, 400, 400);
       CanvasBlob({
         ctx: canvasRef.current.getContext("2d")!,
         nodes,
         controlPoints,
         colors: poline.colorsCSS,
         radius,
+        audioDataArray,
+        peaks,
+      });
+      CanvasBlob({
+        ctx: canvasRef.current.getContext("2d")!,
+        nodes: innerBlob[0],
+        controlPoints: innerBlob[1],
+        colors: poline.colorsCSS,
+        radius: 110,
+        audioDataArray,
+        peaks: innerBlob[2],
       });
     }
 
@@ -345,24 +380,43 @@ const Blob = ({
     amplitude: number,
     audioDataArray?: Uint8Array
   ) => {
+    let peaks: number[] = [];
+
+    const radians = (Math.PI * 2) / nodes.length;
+
+    const audioDataAverage = audioDataArray
+      ? audioDataArray.reduce((a, c, i, v) => {
+          a += c;
+          if (i === v.length - 1) {
+            return a / v.length;
+          }
+          return a;
+        }, 0)
+      : 0;
+
     nodes.forEach((node, i) => {
       const peak = audioDataArray
         ? audioDataArray[i * (audioDataArray.length / nodes.length)] / 50
         : 0;
 
-      console.log({ peak });
+      const distanceFromOrigin = ~~Math.abs(
+        (node.nextX / (viewSize / 2 + Math.cos(radians * i)) - 2) * 100
+      );
+
+      //   console.log({ peak });
+      peaks.push(distanceFromOrigin);
 
       if (Math.abs(nodes[i].nextX - nodes[i].x) < 10) {
-        // const shiftX =
-        //   ((~~(Math.random() * 5) - 2) * Math.random() * amplitude) / 2;
+        // const shiftX = (1 * (Math.cos(distanceFromOrigin) * peak * 20)) / 2;
+        const shiftX = Math.cos(audioDataAverage) * peak * 0.5 * 20;
         nodes[i].prevX = nodes[i].x;
-        // nodes[i].nextX = nodes[i].baseX + shiftX;
+        nodes[i].nextX = nodes[i].baseX + shiftX;
       }
       if (Math.abs(nodes[i].nextY - nodes[i].y) < 10) {
-        // const shiftY =
-        //   ((~~(Math.random() * 5) - 2) * Math.random() * amplitude) / 2;
+        // const shiftY = (1 * (Math.sin(distanceFromOrigin) * peak * 20)) / 2;
+        const shiftY = Math.sin(audioDataAverage) * peak * 0.5 * 20;
         nodes[i].prevY = nodes[i].y;
-        // nodes[i].nextY = nodes[i].baseY + shiftY;
+        nodes[i].nextY = nodes[i].baseY + shiftY;
       }
 
       const distanceX = nodes[i].nextX - nodes[i].prevX;
@@ -383,7 +437,7 @@ const Blob = ({
       controlPoints[i].c2x += shiftX;
       controlPoints[i].c2y += shiftY;
     });
-    return [nodes, controlPoints] as const;
+    return [nodes, controlPoints, peaks] as const;
   };
 
   const ease = (t: number) => {
@@ -428,7 +482,6 @@ const Blob = ({
           ref={canvasRef}
           width={400}
           height={400}
-          style={{ position: "static", border: "1px solid black" }}
           onClick={togglePlayPause}
         ></canvas>
       </Flex>
