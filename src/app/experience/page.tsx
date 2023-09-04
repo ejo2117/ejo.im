@@ -1,22 +1,14 @@
-import Cell from "@/components/ui/Cell";
-import { Caption, Flex } from "@/components/ui";
-import {
-  FigmaBadge,
-  GraphQlBadge,
-  NextJsBadge,
-  ReactBadge,
-  ShopifyBadge,
-  TypescriptBadge,
-} from "@/components/ui/Badge/Badge";
+import { Caption } from "@/components/ui";
 import styles from "./page.module.scss";
+import roles from "./roles";
 
-type JobProps = {
+type RoleProps = {
   title: string;
   company: string;
   dates: string;
 };
 
-const Job = ({ title, company, dates }: JobProps) => {
+const Role = ({ title, company, dates }: RoleProps) => {
   return (
     <li>
       <div className={styles.details}>
@@ -33,33 +25,10 @@ const Job = ({ title, company, dates }: JobProps) => {
 };
 
 export default function Resume() {
-  const jobs = [
-    {
-      title: "Full Stack Developer",
-      company: "Pair Eyewear",
-      dates: "2020 - Present",
-    },
-    {
-      title: "UI/UX Intern",
-      company: "Pair Eyewear",
-      dates: "2020 - 2020",
-    },
-    {
-      title: "Co-Owner, Product Developer",
-      company: "Sight",
-      dates: "2018 - 2020",
-    },
-    {
-      title: "Barista",
-      company: "Pret a Manger",
-      dates: "2018 - 2018",
-    },
-  ];
-
   return (
     <ul className={styles.container}>
-      {jobs.map((props) => (
-        <Job key={props.title} {...props} />
+      {roles.map((props) => (
+        <Role key={props.title} {...props} />
       ))}
     </ul>
   );
