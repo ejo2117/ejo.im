@@ -17,10 +17,10 @@ const NavBar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className={styles.container}>
-      <Title>Ethan O&apos;Neal</Title>
-      <Spacer size={0.4} />
-      <div className={styles.links}>
+    <>
+
+    <Title className={styles.title}>Ethan O&apos;Neal</Title>
+      <nav className={styles.links}>
         {PATHS.map(([href, name]) => {
           const isCurrentPage = pathname === href;
           return (
@@ -39,8 +39,8 @@ const NavBar = () => {
             </Link>
           );
         })}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 

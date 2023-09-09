@@ -4,13 +4,14 @@
   background-color: $gray-0;
 }
 
-.container {
+.title {
+  grid-area: name;
+}
+
+.links {
   display: flex;
   gap: 0.8rem;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-shrink: 0;
-  width: 100%;
+  grid-area: nav;
 
   a {
     width: fit-content;
@@ -44,17 +45,9 @@
     }
   }
 
-  @media screen and (min-width: $media-sm) {
+  @media screen and (min-width: $media-md) {
     flex-direction: column;
     justify-content: flex-start;
     width: auto;
-  }
-}
-
-.links {
-  display: flex;
-  gap: 0.8rem;
-  @media screen and (min-width: $media-sm) {
-    flex-direction: column;
   }
 }
