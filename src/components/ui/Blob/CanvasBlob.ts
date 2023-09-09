@@ -1,4 +1,4 @@
-import { BezierControlPoint, Node } from "./Blob";
+import { BezierControlPoint, BlobNode } from "./utils";
 
 const CanvasBlob = ({
   ctx,
@@ -8,7 +8,7 @@ const CanvasBlob = ({
   radius,
 }: {
   ctx: CanvasRenderingContext2D;
-  nodes: Node[];
+  nodes: BlobNode[];
   controlPoints: BezierControlPoint[];
   colors: string[];
   radius: number;
@@ -23,10 +23,6 @@ const CanvasBlob = ({
     const cp2 = controlPoints.at(i)!;
     ctx.bezierCurveTo(cp1.c2x, cp1.c2y, cp2.c1x, cp2.c1y, node.x, node.y);
   });
-
-  // nodes.forEach((node, i) => {
-  //   ctx.arc(node.x, node.y, 8, 0, 2 * Math.PI);
-  // });
 
   const centroid = nodes.reduce(
     (result, current, i, a) => {
@@ -59,11 +55,6 @@ const CanvasBlob = ({
   ctx.fillStyle = gradient;
   ctx.fill();
 
-  // ctx.fillStyle = "#000";
-  // ctx.arc(centroid[0], centroid[1], 5, 0, 2 * Math.PI);
-  // ctx.arc(focal[0], focal[1], 5, 0, 2 * Math.PI);
-  // ctx.strokeStyle = "#fff";
-  // ctx.stroke();
   ctx.closePath();
 };
 
