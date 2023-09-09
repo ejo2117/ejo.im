@@ -6,7 +6,7 @@ export default function About() {
   return (
     <Container className={styles.container}>
       <Caption withBalancer>
-        I&apos;m a software engineer and designer based in New York City,
+        I&apos;m a software designer based in New York City,
         currently focused on bringing exciting digital product experiences to
         life at{" "}
         <Link
