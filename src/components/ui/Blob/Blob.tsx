@@ -147,7 +147,6 @@ const Blob = ({
   }, [amplitude, controlPoints, nodes, speed])
 
   const [poline, setPoline] = useState(colors);
-  const [running, setRunning] = useState(false);
 
   // Here's where the animation actually gets run.
   // We pass the hook a function that executes on every available frame
@@ -166,8 +165,8 @@ const Blob = ({
     if (canvasRef.current) {
       CanvasBlob({
         ctx: canvasRef.current.getContext("2d")!,
-        nodes,
-        controlPoints,
+        nodes: updatedNodes,
+        controlPoints: updatedControlPoints,
         colors: poline.colorsCSS,
         radius,
       });
@@ -186,7 +185,6 @@ const Blob = ({
       ref={canvasRef}
       width={400}
       height={400}
-      onClick={() => setRunning((prev) => !prev)}
     ></canvas>
   );
 };

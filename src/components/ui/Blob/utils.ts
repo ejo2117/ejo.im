@@ -43,7 +43,16 @@ export const ease = (t: number, speed: number) => {
 
 
 
-const pseudoRand = (t: number) =>Math.random()
+const pseudoRandX = (t: number, i: number) => {
+  const {sin,cos,tan,log,random,sqrt, max} = Math;
+
+  return max(sin(sqrt(t**1.5 * i)), 0);
+}
+const pseudoRandY = (t: number, i: number) => {
+  const {sin,cos,tan,log, random, sqrt, max} = Math;
+
+  return max(cos(t * i), 0);
+}
 
 
 
@@ -58,13 +67,13 @@ export const createAnimation = (
     
       if (Math.abs(nodes[i].nextX - nodes[i].x) < 10) {
         const shiftX =
-          ((~~(pseudoRand(t) * 5) - 2) * pseudoRand(t) * amplitude) / 2;
+          ((~~(pseudoRandX(t, i) * 5) - 2) * pseudoRandX(t, i) * amplitude) / 2;
         nodes[i].prevX = nodes[i].x;
         nodes[i].nextX = nodes[i].baseX + shiftX;
       }
       if (Math.abs(nodes[i].nextY - nodes[i].y) < 10) {
         const shiftY =
-          ((~~(pseudoRand(t) * 5) - 2) * pseudoRand(t) * amplitude) / 2;
+          ((~~(pseudoRandY(t, i) * 5) - 2) * pseudoRandY(t, i) * amplitude) / 2;
         nodes[i].prevY = nodes[i].y;
         nodes[i].nextY = nodes[i].baseY + shiftY;
       }
