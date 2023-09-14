@@ -155,8 +155,6 @@ const Blob = ({
       return;
     }
 
-    console.log( ~~(time - animationStart.current) / 1000);
-    
     
     const [updatedNodes, updatedControlPoints] = animate(
       ~~(time - animationStart.current) / 1000
