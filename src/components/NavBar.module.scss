@@ -4,14 +4,10 @@
   background-color: $gray-0;
 }
 
-.title {
-  grid-area: name;
-}
 
 .links {
   display: flex;
   gap: 0.8rem;
-  grid-area: nav;
 
   a {
     width: fit-content;

@@ -4,7 +4,7 @@
   width: 100%;
   background-color: #f9f9f9;
   position: absolute;
-  overflow: hidden;
+  // overflow: hidden;
 
   @media (prefers-color-scheme: dark) {
     background-color: $gray-5;
@@ -34,19 +34,6 @@
 .view {
   width: 100%;
   padding: 0;
-
-  display: grid;
-  grid-template-areas: 
-            "name nav nav"
-            "content content content"
-            "content content content";
-  
-  @media (min-width: $media-md) {
-    grid-template-areas: 
-            "name nothing nothing"
-            "nav content content"
-            "nav content content";
-  }
 }
 
 .content {
@@ -57,8 +44,6 @@
   width: 100%;
   justify-content: flex-start;
   padding: 0;
-
-  grid-area: content;
 
   @media screen and (min-width: $media-sm) {
     flex-direction: row;
