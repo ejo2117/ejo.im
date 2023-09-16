@@ -1,7 +1,7 @@
 import React from "react";
 
 type SpacerProps = {
-  /** Use rem */
+  /** Spacing in rem units */
   size: number;
 };
 
