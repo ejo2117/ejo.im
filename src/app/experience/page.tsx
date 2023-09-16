@@ -1,6 +1,6 @@
 import { Caption } from "@/components/ui";
 import styles from "./page.module.scss";
-import roles from "./roles";
+import roles from "../../components/sections/Experience/roles";
 
 type RoleProps = {
   title: string;
