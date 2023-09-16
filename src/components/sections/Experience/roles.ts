@@ -2,7 +2,7 @@ const roles = [
     {
       title: "Senior Software Engineer",
       company: "Pair Eyewear",
-      dates: "2023 - Present",
+      dates: "Present",
     },
     {
       title: "Software Engineer",
