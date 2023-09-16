@@ -1,0 +1,12 @@
+.blobs {
+    grid-area: content;
+    height: 400px;
+    width: 400px;
+    position: relative;
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+    }
+  }
