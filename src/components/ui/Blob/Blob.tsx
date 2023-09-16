@@ -183,8 +183,8 @@ const Blob = ({
   return (
     <canvas
       ref={canvasRef}
-      width={400}
-      height={400}
+      width={viewSize}
+      height={viewSize}
     ></canvas>
   );
 };
