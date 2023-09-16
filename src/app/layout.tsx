@@ -20,8 +20,7 @@ export default function RootLayout({
         <main className={classes}>
           <section className={styles.frame}>
             <div className={styles.view}>
-              <NavBar />
-              <div className={styles.content}>{children}</div>
+              {children}
             </div>
           </section>
         </main>
