@@ -46,6 +46,7 @@ const Blob = ({
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationStart = useRef(performance.now());
+  const realTime = useRef(Date.now())
 
 
   const createNodes = useCallback(
@@ -155,10 +156,10 @@ const Blob = ({
       return;
     }
 
-    
-    const [updatedNodes, updatedControlPoints] = animate(
-      ~~(time - animationStart.current) / 1000
-    );
+    // Tbh not sure why we can't use `elapsed`? Seems like a bug in how that value is calculated.
+    const timeSinceStart = ~~(time - animationStart.current) / 1000
+
+    const [updatedNodes, updatedControlPoints] = animate(timeSinceStart);
 
     if (canvasRef.current) {
       CanvasBlob({
@@ -167,6 +168,7 @@ const Blob = ({
         controlPoints: updatedControlPoints,
         colors: poline.colorsCSS,
         radius,
+        time: timeSinceStart,
       });
     }
   });

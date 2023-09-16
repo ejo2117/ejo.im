@@ -47,12 +47,12 @@ const pseudoRandX = (t: number, i: number) => {
   const {sin,cos,tan,log,random,sqrt, max} = Math;
 
   // return max(sin(sqrt(t**1.5 * i)), 0);
-  return sin((t ** i)) * sin((i % 2) * -1);
+  return tan(sin((t ** i)) * sin((i % 2) * -1) * -1);
 }
 const pseudoRandY = (t: number, i: number) => {
   const {sin,cos,tan,log, random, sqrt, max} = Math;
 
-  return cos(tan(t ** i) * -1) * cos((i % 2) * -1);
+  return cos(tan(t ** i) * -1) * cos((i % 2) * -1) * -1;
 }
 
 

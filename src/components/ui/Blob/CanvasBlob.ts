@@ -1,20 +1,24 @@
 import { BezierControlPoint, BlobNode } from "./utils";
 
+type CanvasBlobProps = {
+  ctx: CanvasRenderingContext2D;
+  nodes: BlobNode[];
+  controlPoints: BezierControlPoint[];
+  colors: string[];
+  radius: number;
+  time: number;
+}
+
 const CanvasBlob = ({
   ctx,
   nodes,
   controlPoints,
   colors,
   radius,
-}: {
-  ctx: CanvasRenderingContext2D;
-  nodes: BlobNode[];
-  controlPoints: BezierControlPoint[];
-  colors: string[];
-  radius: number;
-}) => {
+  time,
+}: CanvasBlobProps) => {
   ctx.clearRect(0, 0, 400, 400);
-  ctx.filter = "blur(8px)";
+  // ctx.filter = "blur(8px)";
 
   ctx.beginPath();
   ctx.moveTo(nodes.at(-1)!.x, nodes.at(-1)!.y);
@@ -55,6 +59,9 @@ const CanvasBlob = ({
   ctx.fillStyle = gradient;
   ctx.fill();
 
+  ctx.translate(centroid[0], centroid[1])
+  ctx.rotate(~~(5 * Math.sin(time) / 200))
+  ctx.translate(centroid[0] * -1, centroid[1] * -1)
   ctx.closePath();
 };
 
