@@ -30,6 +30,10 @@
       @media screen and (min-width: $media-sm) {
         flex-direction: row;
       }
+
+      @media (prefers-color-scheme: dark) {
+        text-shadow: 0px 0px 8px $gray-5;
+      }
     }
   }
   
