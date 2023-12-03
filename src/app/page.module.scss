@@ -14,7 +14,7 @@
 // Basic Padding
 .frame {
   display: flex;
-  max-width: $media-md;
+  max-width: 375px;
   height: 100%;
   margin: auto;
   justify-content: flex-start;
@@ -52,10 +52,6 @@
 }
 
 .glass {
-  background: linear-gradient(180deg, #FFF 0%, rgba(255, 255, 255, 0.00) 100%);
-  backdrop-filter: blur(4px);
-  padding: 3.2rem 1.6rem 1.6rem 1.6rem;
-  @media (prefers-color-scheme: dark) {
-    background: linear-gradient(180deg, $gray-5 0%, rgba(255, 255, 255, 0.00) 100%);
-  }
+
+
 }

@@ -44,13 +44,21 @@ export const ease = (t: number, speed: number) => {
 
 
 const pseudoRandX = (t: number, i: number) => {
-  const {sin,cos,tan,log,random,sqrt, max} = Math;
+  const {sin,cos,tan,log,random,sqrt, max, min} = Math;
+  const value = sin(max(0, t * t - i * i));
+  // return 0.5;
+  const itr = (sin(value * value * value)) 
+  return itr > 0.5 ? 0.5 : itr
 
   // return max(sin(sqrt(t**1.5 * i)), 0);
-  return tan(sin((t ** i)) * sin((i % 2) * -1) * -1);
+  // return tan(sin((t ** i)) * sin((i % 2) * -1) * -1);
 }
 const pseudoRandY = (t: number, i: number) => {
-  const {sin,cos,tan,log, random, sqrt, max} = Math;
+  const {sin,cos,tan,log, random, sqrt, max, min} = Math;
+  const value = max(0, t * t - i * i);
+  // return 0.5;
+  const itr = (sin(value * value * value)) 
+  return itr > 0.5 ? 0.5 : itr
 
   return cos(tan(t ** i) * -1) * cos((i % 2) * -1) * -1;
 }
