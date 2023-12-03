@@ -1,5 +1,5 @@
 import roles from '@/components/sections/Experience/roles';
-import { Caption } from '@/components/ui';
+import { Caption, Spacer, Title } from '@/components/ui';
 import styles from './Experience.module.scss'
 import React from 'react'
 
@@ -28,11 +28,15 @@ const Role = ({ title, company, dates }: RoleProps) => {
 
 const Experience = () => {
     return (
+      <>
+        <Title>Experience</Title>
+        <Spacer size={1.2}/>
         <ul className={styles.container}>
           {roles.map((props) => (
             <Role key={props.title} {...props} />
-          ))}
+            ))}
         </ul>
+      </>
       );
 }
 

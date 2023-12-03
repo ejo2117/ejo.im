@@ -6,8 +6,8 @@ import styles from './About.module.scss'
 const About = () => {
   return (
     <Container className={styles.container}>
-      <Caption withBalancer>
-        I&apos;m a software designer based in New York City,
+      <Caption >
+        Hey! I&apos;m a software engineer based in New York City,
         currently focused on bringing exciting digital product experiences to
         life at{" "}
         <Link
@@ -17,7 +17,7 @@ const About = () => {
         >
           Pair Eyewear
         </Link>
-        . In the past, I <span style={{ whiteSpace: "nowrap" }}>co-ran</span>{" "}
+        .<br /><br /> In the past, I did freelance design and development work as part of {" "}
         <Link
           href={"https://sight.nyc"}
           target="_blank"
@@ -25,8 +25,7 @@ const About = () => {
         >
           Sight
         </Link>
-        , an indie design studio that delivered creative and technological
-        solutions for multiple clients. I&apos;m passionate about a variety of
+        , an indie design studio based in Brooklyn.<br /><br /> I&apos;m passionate about a variety of
         topics including creative coding, creating and discussing music, and the
         NYT Crossword.
       </Caption>

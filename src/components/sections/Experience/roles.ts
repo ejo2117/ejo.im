@@ -15,7 +15,7 @@ const roles = [
       dates: "2020 - 2020",
     },
     {
-      title: "Co-Owner, Product Developer",
+      title: "Freelancer",
       company: "Sight",
       dates: "2018 - 2020",
     },
