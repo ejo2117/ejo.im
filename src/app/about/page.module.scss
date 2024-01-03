@@ -1,6 +1,9 @@
 .container {
   // kind of gnarly, but set the margin here so that content lines up nicely with nav bar
   margin-top: 2rem;
+  @media screen and (min-width: $media-sm) {
+    margin-top: 8.4rem;
+  }
 
   a {
     font-weight: 400;

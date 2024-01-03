@@ -35,9 +35,14 @@ const Job = ({ title, company, dates }: JobProps) => {
 export default function Resume() {
   const jobs = [
     {
+      title: "Senior Software Engineer",
+      company: "Pair Eyewear",
+      dates: "Present",
+    },
+    {
       title: "Full Stack Developer",
       company: "Pair Eyewear",
-      dates: "2020 - Present",
+      dates: "2020 - 2023",
     },
     {
       title: "UI/UX Intern",
