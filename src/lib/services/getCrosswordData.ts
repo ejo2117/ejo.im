@@ -47,7 +47,8 @@ export async function getCrosswordData(){
             'method': 'GET',
             'headers': {
                 'nyt-s': process.env.NYT_SUBSCRIPTION_TOKEN!
-            }
+            },
+            'cache': 'no-cache'
         })
 
         if (res.ok) {
