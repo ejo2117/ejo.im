@@ -1,8 +1,27 @@
 import { Caption, Container } from "@/components/ui";
+import { getCrosswordData, NytStatsResponse } from "@/lib/services/getCrosswordData";
 import Link from "next/link";
 import styles from "./page.module.scss";
 
-export default function About() {
+
+function parseCrosswordData(data: NytStatsResponse | undefined) {
+  if(typeof data === 'undefined') {
+    return '.'
+  }
+
+  if (data.results.streaks.current_streak === 0) {
+    return " (although I haven't completed today's puzzle yet)."
+  }
+
+  return `. I'm on a ${data.results.streaks.current_streak} day streak!`
+}
+
+export default async function About() {
+
+  const data = await getCrosswordData()
+
+  const message = parseCrosswordData(data)
+
   return (
     <Container className={styles.container}>
       <Caption >
@@ -26,7 +45,7 @@ export default function About() {
         </Link>
         , an indie design studio based in Brooklyn.<br /><br /> In my own time, I&apos;m passionate about a variety of
         topics including creative coding, creating and discussing music, and the
-        NYT Crossword.
+        NYT Crossword{message}
       </Caption>
     </Container>
   );
