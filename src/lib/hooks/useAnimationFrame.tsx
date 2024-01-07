@@ -32,8 +32,6 @@ const useAnimationFrame = (
       requestRef.current = window.requestAnimationFrame(step);
     }
     return () => {
-      console.log("cancelling animation");
-
       window.cancelAnimationFrame(requestRef.current!);
     };
   }, [runCondition, step]);
