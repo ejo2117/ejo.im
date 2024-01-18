@@ -10,9 +10,10 @@ import {
   Typescript,
 } from "../Icons";
 import { Label } from "@/components/ui/Typography";
+import { EnvelopeClosedIcon, GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 
 type BadgeProps = {
-  title: string;
+  title?: string;
   icon?: ReactNode | JSX.Element;
   href?: string;
   backgroundColor?: HexColor;
@@ -28,7 +29,7 @@ const Badge = ({
 }: BadgeProps) => {
   return (
     <a
-      className={styles.container}
+      className={title ? styles.container : styles.circle}
       style={{ backgroundColor, color: textColor }}
       href={href}
       target="_blank"
@@ -99,6 +100,30 @@ const GraphQlBadge = () => (
     textColor="#C20082"
   />
 );
+const GithubBadge = () => (
+  <Badge
+    href="https://github.com/ejo2117"
+    icon={<GitHubLogoIcon />}
+    backgroundColor="#E6E9EF"
+    textColor="#0E1116"
+  />
+);
+const LinkedInBadge = () => (
+  <Badge
+    href="https://www.linkedin.com/in/ethan-o-neal/"
+    icon={<LinkedInLogoIcon />}
+    backgroundColor="#E6F0F9"
+    textColor="#0A66C2"
+  />
+);
+const EmailBadge = () => (
+  <Badge
+    href="mailto:ejo978@gmail.com"
+    icon={<EnvelopeClosedIcon />}
+    backgroundColor="#E6F0F9"
+    textColor="#0A66C2"
+  />
+);
 
 const SkillBadges = {
   figma: FigmaBadge,
@@ -114,6 +139,9 @@ export {
   ReactBadge,
   TypescriptBadge,
   GraphQlBadge,
+  GithubBadge,
+  LinkedInBadge,
+  EmailBadge,
   NextJsBadge,
   ShopifyBadge,
   SkillBadges,

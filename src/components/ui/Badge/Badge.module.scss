@@ -18,3 +18,43 @@
     }
   }
 }
+
+.circle {
+  height: 4.4rem;
+  min-width: 4.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  position: relative;
+
+  svg {
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+  }
+
+  &:focus {
+    outline: currentColor 2px solid;
+    svg {
+      transform: scale3d(1, 1, 1) !important;
+    }
+  }
+
+  &:active {
+    svg {
+      transform: scale3d(1, 1, 1) !important;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      svg {
+        transform: scale3d(1.1, 1.1, 1);
+      }
+    }
+  }
+}
