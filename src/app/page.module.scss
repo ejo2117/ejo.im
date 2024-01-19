@@ -71,3 +71,25 @@
     translate: -50% -50%;
   }
 }
+
+.mobileColumn {
+  flex-direction: column;
+
+  > div:last-child{
+    position: fixed;
+    bottom: 3.2rem;
+    right: 1.6rem;
+    // translate: -50% 0;
+  }
+
+  @media (min-width: $media-sm) {
+    flex-direction: row;
+
+    > div:last-child{
+        position: initial;
+        bottom: initial;
+        left: initial;
+        translate: initial;
+    } 
+  }
+}
