@@ -4,7 +4,7 @@ import { Body, Flex } from "@/components/ui";
 import Blob from "@/components/Blob";
 import { Poline } from "poline";
 
-export default async function Home() {
+export default function Home() {
   const poline = new Poline();
   return (
     <Flex column center gap={4}>
