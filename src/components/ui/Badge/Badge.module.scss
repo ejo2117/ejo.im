@@ -20,8 +20,8 @@
 }
 
 .circle {
-  height: 4.4rem;
-  min-width: 4.4rem;
+  height: 3.2rem;
+  min-width: 3.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,6 +35,7 @@
     top: 50%;
     left: 50%;
     translate: -50% -50%;
+    transition: transform 0.1s ease-out;
   }
 
   &:focus {

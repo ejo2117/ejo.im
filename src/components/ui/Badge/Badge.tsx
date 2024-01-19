@@ -112,16 +112,16 @@ const LinkedInBadge = () => (
   <Badge
     href="https://www.linkedin.com/in/ethan-o-neal/"
     icon={<LinkedInLogoIcon />}
-    backgroundColor="#E6F0F9"
-    textColor="#0A66C2"
+    backgroundColor="#E6E9EF"
+    textColor="#0E1116"
   />
 );
 const EmailBadge = () => (
   <Badge
     href="mailto:ejo978@gmail.com"
     icon={<EnvelopeClosedIcon />}
-    backgroundColor="#E6F0F9"
-    textColor="#0A66C2"
+    backgroundColor="#E6E9EF"
+    textColor="#0E1116"
   />
 );
 
