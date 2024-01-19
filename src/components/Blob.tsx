@@ -48,7 +48,7 @@ const AMPLITUDE = 40;
 const VIEW_SIZE = 400;
 
 type BlobProps = {
-  colors: Poline;
+  poline: Poline;
   radius?: number;
   speed?: number;
   amplitude?: number;
@@ -59,7 +59,7 @@ type BlobProps = {
 
 // https://observablehq.com/@daformat/drawing-blobs-with-svg
 const Blob = ({
-  colors = new Poline(),
+  poline = new Poline(),
   radius = RADIUS,
   speed = SPEED,
   amplitude = AMPLITUDE,
@@ -180,7 +180,6 @@ const Blob = ({
     [OFFSET_X, OFFSET_Y, createControlPoints, nodes, radius]
   );
 
-  const [poline, setPoline] = useState(colors);
   const [running, setRunning] = useState(false);
 
   const pathRef = useRef<SVGPathElement>(null);
