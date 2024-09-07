@@ -1,29 +1,27 @@
 const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-const authOptions = {
-    url: 'https://accounts.spotify.com/api/token',
-    headers: {
-        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-    },
-    form: {
-        grant_type: 'client_credentials'
-    },
-    json: true
-};
-
 type TokenErrorResponse = {
+    failed: true;
     error: string;
     error_description: string;
 }
 
 type TokenSuccessResponse = {
+    failed: false;
     access_token: string;
     token_type: string;
     expires_in: number;
 }
 
-type UserPlaylistsResponse = {
+type TokenResponse = TokenErrorResponse | TokenSuccessResponse;
+
+type UserPlaylistsSuccessResponse = {
+    failed: false
+    data: UserPlaylists['items'];
+}
+
+type UserPlaylists = {
     href: string;
     limit: number;
     next: string;
@@ -32,6 +30,13 @@ type UserPlaylistsResponse = {
     total: number;
     items: Array<Playlist>
 }
+
+type UserPlaylistsErrorResponse = {
+    failed: true
+    error: string;
+}
+
+type UserPlaylistsResponse = UserPlaylistsErrorResponse | UserPlaylistsSuccessResponse;
 
 type Playlist = {
     collaborative: boolean;
@@ -71,12 +76,12 @@ type Playlist = {
     uri: string;
 }
 
-export const getSpotifyAccessToken = async () => {
+export const getSpotifyAccessToken = async (): Promise<TokenResponse> => {
     try {
         const res = await fetch('https://accounts.spotify.com/api/token', {
             'method': 'POST',
             'headers': {
-                'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64')),
+                'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64')),
                 'Content-Type': 'application/x-www-form-urlencoded' 
             },
             'body': new URLSearchParams({
@@ -85,23 +90,40 @@ export const getSpotifyAccessToken = async () => {
         });
 
         try {
-            const data: TokenSuccessResponse = await res.json();
+            const data = await res.json();
+
+            if(Object.hasOwn(data, 'error')) {
+                data.failed = true;
+                return data;
+            }
+
+            data.failed = false;
             return data;
-        } catch (error) {
-            console.error(`Error parsing JSON: ${error}`)
-            return {} as TokenSuccessResponse
+        } catch (error) {            
+            return {
+                failed: true,
+                error: 'User error.',
+                error_description: `Error parsing JSON: ${error}`, 
+            };
         }
     
     } catch (error) {
-        console.error(`Error fetching Token: ${error}`)
-        return {} as TokenSuccessResponse
+        return {
+            failed: true,
+            error: 'User error.',
+            error_description: `Error parsing JSON: ${error}`, 
+        };
     }
     
 };
 
-export const getUserPlaylists = async (userId: string, authToken: string) => {
+export const getUserPlaylists = async (userId: string, authToken: string): Promise<UserPlaylistsResponse> => {
+    
     if (!userId) {
-        return null
+        return {
+            failed: true,
+            error: 'No User Id provided.'
+        };
     }
 
     const endpoint = `https://api.spotify.com/v1/users/${userId}/playlists`
@@ -115,18 +137,48 @@ export const getUserPlaylists = async (userId: string, authToken: string) => {
         })
 
         try {
-            const data: UserPlaylistsResponse = await res.json();
-            return getRnPlaylists(data.items);
+            const data: UserPlaylists = await res.json();
+            const filtered = getRnPlaylists(data.items);
+            return {
+                failed: false,
+                data: filtered
+            }
         } catch (error) {
-            console.error(`Error parsing JSON: ${error}`)    
+            return {
+                failed: true,
+                error: `Error parsing JSON: ${error}` 
+            };
         }
     } catch (error) {
-        console.error(`Error fetching Playlists: ${error}`)     
+        return {
+            failed: true,
+            error: `Error fetching Playlists: ${error}` 
+        };
     }
 
 }
 
-
+/** Returns playlists with the "rn" prefix from a list of playlists */
 const getRnPlaylists = (playlists: Playlist[]) => {
     return playlists.filter(p => p.name.slice(0,2) === 'rn')
+}
+
+
+export const getMyPlaylists = async () => {
+ 
+    const tokenResponse = await getSpotifyAccessToken();
+
+    if (tokenResponse.failed) {
+       // handle token error 
+       return []
+    }
+
+    const playlistsResponse = await getUserPlaylists(process.env.SPOTIFY_USER_ID!, tokenResponse.access_token)
+
+    if (playlistsResponse.failed) {
+        // handle playlist error
+        return []
+    }
+
+    return playlistsResponse.data
 }
