@@ -1,16 +1,22 @@
 import { Caption, Container } from "@/components/ui";
 import { getMyPlaylists } from "@/lib/services/spotify";
+import Link from "next/link";
 
 export default async function Playlists() {
 
     const playlists = await getMyPlaylists();
 
-
     return (
-        <Container>
+        <ul>
             {playlists.map(playlist => {
-                return <Caption key={playlist.id}>{playlist.name}</Caption>
+                return (
+                    <li key={playlist.id}>
+                        <Link href={`/playlists/${playlist.id}`}>
+                            <Caption>{playlist.name}</Caption>
+                        </Link>
+                    </li>
+                )
             })}
-        </Container>
+        </ul>
     )
 }
