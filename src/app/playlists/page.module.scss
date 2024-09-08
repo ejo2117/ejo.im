@@ -1,0 +1,17 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.8rem;
+    height: 500px;
+
+    padding: 1.6rem 0;
+
+    overflow-y: scroll;
+
+    @include hide-scroll-bar;
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+}
