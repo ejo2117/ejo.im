@@ -20,7 +20,10 @@ export default async function Playlists() {
                 return (
                         <Link key={playlist.id} href={`${playlist.uri}`}>
                             <Flex column gap={2} >
-                                <img src={playlist.images[0].url}/>
+                                <img 
+                                    src={playlist.images?.[0].url} 
+                                    alt={`a cover image for playlist ${playlist.name}`}
+                                />
                                 <Caption>{playlist.name}</Caption>
                             </Flex>
                         </Link>
