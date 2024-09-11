@@ -11,6 +11,7 @@ const PATHS = [
   ["/", "Home"],
   ["/about", "About"],
   ["/experience", "Experience"],
+  ["/playlists", "Playlists"]
 ] as const;
 
 const NavBar = () => {

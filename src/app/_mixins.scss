@@ -9,3 +9,14 @@
     }
   }
 }
+
+@mixin hide-scroll-bar {
+	// Hide scroll bar
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		// Safari way to hide scroll bar
+		display: none;
+	}
+}
