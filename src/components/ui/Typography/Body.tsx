@@ -1,7 +1,7 @@
-import React, { FC, forwardRef } from "react";
-import styles from "./Body.module.scss";
-import cn from "classnames";
-import Balancer from "react-wrap-balancer";
+import React, { FC, forwardRef } from 'react';
+import cn from 'classnames';
+import Balancer from 'react-wrap-balancer';
+import styles from './Body.module.scss';
 
 /**
  *  Body
@@ -13,42 +13,30 @@ import Balancer from "react-wrap-balancer";
  * - Family: Inter
  */
 const Body: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
-  (
-    {
-      children,
-      style,
-      className,
-      withBalancer = false,
-      bold,
-      italic,
-      large,
-      ...rest
-    },
-    forwardedRef
-  ) => {
-    const classes = cn(
-      styles.default,
-      { [styles.bold]: bold },
-      { [styles.italic]: italic },
-      { [styles.large]: large },
-      className
-    );
+	({ children, style, className, withBalancer = false, bold, italic, large, ...rest }, forwardedRef) => {
+		const classes = cn(
+			styles.default,
+			{ [styles.bold]: bold },
+			{ [styles.italic]: italic },
+			{ [styles.large]: large },
+			className
+		);
 
-    return (
-      <p
-        className={classes}
-        ref={forwardedRef}
-        style={{
-          ...style,
-        }}
-        {...rest}
-      >
-        {withBalancer ? <Balancer>{children}</Balancer> : children}
-      </p>
-    );
-  }
+		return (
+			<p
+				className={classes}
+				ref={forwardedRef}
+				style={{
+					...style,
+				}}
+				{...rest}
+			>
+				{withBalancer ? <Balancer>{children}</Balancer> : children}
+			</p>
+		);
+	}
 );
 
-Body.displayName = "Body";
+Body.displayName = 'Body';
 
 export default Body;
