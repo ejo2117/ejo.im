@@ -63,7 +63,7 @@ export const getUserPlaylists = async (userId: string, authToken: string): Promi
 
         try {
             const data: UserPlaylists = await res.json();
-            const filtered = getRnPlaylists(data.items);
+            const filtered = getFeaturedPlaylists(data.items);
             return {
                 failed: false,
                 data: filtered
@@ -83,9 +83,18 @@ export const getUserPlaylists = async (userId: string, authToken: string): Promi
 
 }
 
-/** Returns playlists with the "rn" prefix from a list of playlists */
-const getRnPlaylists = (playlists: Playlist[]) => {
-    return playlists.filter(p => p.name.slice(0,2) === 'rn')
+/** 
+ * From a list of playlists, returns playlists with the "rn" prefix,
+ * or best-of-year playlists, which have a 4 digit name
+ * */
+const getFeaturedPlaylists = (playlists: Playlist[]) => {
+
+    // TODO: this isn't working for "2022"
+    // const exactlyFourDigits = new RegExp(/^202\d{1}$/g)
+
+    return playlists.filter(p => {
+        return p.name.slice(0,2) === 'rn'
+    })
 }
 
 

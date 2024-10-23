@@ -13,9 +13,11 @@ export default async function Playlists() {
 
                 const number = parseInt(playlist.name.split(' - ')[0].split('rn')[1])
 
-                if (number < 10 || Number.isNaN(number)) {
+                if (playlist.name.includes('rn') && (number < 10 || Number.isNaN(number))) {
                     return null;
                 }
+
+                const season = playlist.name.split(' - ')[1]
 
                 return (
                         <Link key={playlist.id} href={`${playlist.uri}`}>
@@ -24,7 +26,7 @@ export default async function Playlists() {
                                     src={playlist.images?.[0].url} 
                                     alt={`a cover image for playlist ${playlist.name}`}
                                 />
-                                <Caption>{playlist.name}</Caption>
+                                <Caption>{season}</Caption>
                             </Flex>
                         </Link>
                 )
