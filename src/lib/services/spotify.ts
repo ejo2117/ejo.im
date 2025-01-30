@@ -12,6 +12,9 @@ export const getSpotifyAccessToken = async (): Promise<TokenResponse> => {
 			body: new URLSearchParams({
 				grant_type: 'client_credentials',
 			}),
+			next: {
+				revalidate: 0,
+			},
 		});
 
 		try {
@@ -47,6 +50,8 @@ export const getUserPlaylists = async (userId: string, authToken: string): Promi
 			error: 'No User Id provided.',
 		};
 	}
+
+	// https://open.spotify.com/playlist/17JGVydT8C5GKUGBzXth2U
 
 	const endpoint = `https://api.spotify.com/v1/users/${userId}/playlists`;
 
