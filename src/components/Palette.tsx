@@ -69,7 +69,7 @@ const Palette = ({ source }: PaletteProps) => {
 
 	return (
 		<>
-			<canvas style={{ position: 'relative', filter: 'initial' }} width={300} height={300} ref={canvasRef} />
+			<canvas style={{ position: 'relative', filter: 'initial', display: 'none' }} width={300} height={300} ref={canvasRef} />
 			{palette.length > 0 && (
 				<Flex
 					gap={3}

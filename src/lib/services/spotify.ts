@@ -13,7 +13,7 @@ export const getSpotifyAccessToken = async (): Promise<TokenResponse> => {
 				grant_type: 'client_credentials',
 			}),
 			next: {
-				revalidate: 0,
+				revalidate: 3600 * 12,
 			},
 		});
 
@@ -113,4 +113,49 @@ export const getMyPlaylists = async () => {
 	}
 
 	return playlistsResponse.data;
+};
+
+export const getPlaylist = async (id: string) => {
+	if (!id) {
+		throw new Error('No playlist id provided');
+	}
+
+	const tokenResponse = await getSpotifyAccessToken();
+
+	if (tokenResponse.failed) {
+		// handle token error
+		return {
+			failed: true,
+			error: `Error getting access token: ${tokenResponse.error} ${tokenResponse.error_description}`,
+		};
+	}
+
+	const endpoint = `https://api.spotify.com/v1/playlists/${id}`;
+
+	try {
+		const res = await fetch(endpoint, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${tokenResponse.access_token}`,
+			},
+		});
+
+		try {
+			const data: Playlist = await res.json();
+			return {
+				failed: false,
+				data,
+			};
+		} catch (error) {
+			return {
+				failed: true,
+				error: `Error parsing JSON: ${error}`,
+			};
+		}
+	} catch (error) {
+		return {
+			failed: true,
+			error: `Error fetching Playlist: ${error}`,
+		};
+	}
 };
