@@ -14,11 +14,11 @@ const PATHS = [
 	['/playlists', 'Playlists'],
 ] as const;
 
-const NavBar = () => {
+const NavBar = ({ ...rest }) => {
 	const pathname = usePathname();
 
 	return (
-		<nav className={styles.container}>
+		<nav className={styles.container} {...rest}>
 			<Title>Ethan O&apos;Neal</Title>
 			<Spacer size={0.4} />
 			<div className={styles.links}>

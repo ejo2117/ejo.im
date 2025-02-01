@@ -23,13 +23,17 @@ export default async function About() {
 	return (
 		<Container className={styles.container}>
 			<Caption>
-				Hey! I&apos;m a software engineer based in New York City, currently focused on bringing exciting digital product
-				experiences to life at{' '}
+				Hey! I&apos;m a software engineer based in Los Angeles, currently building MES applications at{' '}
+				<Link href={'https://rivian.com'} target='_blank' rel='noreferrer noopener'>
+					Rivian
+				</Link>
+				.<br />
+				<br />
+				In the past, I led the development of multiple of E-Commerce applications as the founding engineer at{' '}
 				<Link href={'https://paireyewear.com'} target='_blank' rel='noreferrer noopener'>
 					Pair Eyewear
 				</Link>
-				.<br />
-				<br /> In the past, I did freelance design and development work as part of{' '}
+				. Before that, I did freelance design and development work as part of{' '}
 				<Link href={'https://sight.nyc'} target='_blank' rel='noreferrer noopener'>
 					Sight
 				</Link>

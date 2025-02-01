@@ -1,6 +1,8 @@
+import { ReactElement } from 'react';
 import Cell from '@/components/ui/Cell';
 import { Caption, Flex } from '@/components/ui';
 import { FigmaBadge, GraphQlBadge, NextJsBadge, ReactBadge, ShopifyBadge, TypescriptBadge } from '@/components/ui/Badge/Badge';
+import { OffsetLayout } from '@/components/Layout';
 import styles from './page.module.scss';
 
 type JobProps = {
@@ -29,18 +31,13 @@ export default function Resume() {
 	const jobs = [
 		{
 			title: 'Senior Software Engineer',
-			company: 'Pair Eyewear',
+			company: 'Rivian',
 			dates: 'Present',
 		},
 		{
-			title: 'Full Stack Developer',
+			title: 'Founding Engineer',
 			company: 'Pair Eyewear',
-			dates: '2020 - 2023',
-		},
-		{
-			title: 'UI/UX Intern',
-			company: 'Pair Eyewear',
-			dates: '2020 - 2020',
+			dates: '2020 - 2024',
 		},
 		{
 			title: 'Co-Owner, Product Developer',
@@ -62,3 +59,7 @@ export default function Resume() {
 		</ul>
 	);
 }
+
+Resume.getLayout = function getLayout(page: ReactElement) {
+	return <OffsetLayout>{page}</OffsetLayout>;
+};
