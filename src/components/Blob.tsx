@@ -22,6 +22,7 @@ export type Node = {
 	baseX: number;
 	baseY: number;
 	angle: number;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	debug: {};
 };
 
@@ -76,8 +77,11 @@ const Blob = ({
 
 	const createNodes = useCallback(
 		(radius: number, offsetX: number, offsetY: number) => {
+			// eslint-disable-next-line prefer-const
 			let nodes: Node[] = [],
+				// eslint-disable-next-line prefer-const
 				width = radius * 2,
+				// eslint-disable-next-line prefer-const
 				height = radius * 2,
 				angle,
 				x,

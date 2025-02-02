@@ -195,7 +195,9 @@ const convertRGBtoHSL = (rgbValues: RgbValue[]) => {
 
 		return {
 			h: Math.round(hue) + 180,
+			// @ts-ignore
 			s: parseFloat(saturation * 100).toFixed(2),
+			// @ts-ignore
 			l: parseFloat(luminance * 100).toFixed(2),
 		};
 	});
@@ -251,6 +253,7 @@ export const buildPalette = (colorList: RgbValue[]) => {
 
 		result.push({
 			primary: hexColor,
+			// @ts-ignore
 			complement: `hsl(${hslColors[i].h}, ${hslColors[i].s}%, ${hslColors[i].l}%)`,
 		});
 	}
