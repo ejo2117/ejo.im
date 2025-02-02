@@ -1,7 +1,7 @@
-import React, { FC, forwardRef } from "react";
-import styles from "./Title.module.scss";
-import cn from "classnames";
-import Balancer from "react-wrap-balancer";
+import React, { FC, forwardRef } from 'react';
+import cn from 'classnames';
+import Balancer from 'react-wrap-balancer';
+import styles from './Title.module.scss';
 
 /**
  *  Title
@@ -13,27 +13,24 @@ import Balancer from "react-wrap-balancer";
  * - Family: Inter
  */
 const Title: FC<TypographyProps<HTMLParagraphElement>> = forwardRef(
-  (
-    { children, style, className, withBalancer = false, bold, ...rest },
-    forwardedRef
-  ) => {
-    const classes = cn(styles.default, { [styles.bold]: bold }, className);
+	({ children, style, className, withBalancer = false, bold, ...rest }, forwardedRef) => {
+		const classes = cn(styles.default, { [styles.bold]: bold }, className);
 
-    return (
-      <p
-        className={classes}
-        ref={forwardedRef}
-        style={{
-          ...style,
-        }}
-        {...rest}
-      >
-        {withBalancer ? <Balancer>{children}</Balancer> : children}
-      </p>
-    );
-  }
+		return (
+			<p
+				className={classes}
+				ref={forwardedRef}
+				style={{
+					...style,
+				}}
+				{...rest}
+			>
+				{withBalancer ? <Balancer>{children}</Balancer> : children}
+			</p>
+		);
+	}
 );
 
-Title.displayName = "Title";
+Title.displayName = 'Title';
 
 export default Title;

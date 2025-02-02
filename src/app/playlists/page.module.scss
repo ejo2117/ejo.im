@@ -1,0 +1,28 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    height: calc(100dvh - 8rem);
+    width: 100%;
+
+    padding: 0.8rem 0 3.2rem;
+
+    overflow-y: scroll;
+
+    @include hide-scroll-bar;
+
+    img {
+        width: 100%;
+    }
+
+    @media screen and (min-width: $media-sm) {
+        grid-template-columns: 1fr 1fr 1fr;
+        height: 500px;
+        padding: 1.6rem 0;
+
+        img {
+            width: 200px;
+            height: 200px;
+        }
+    }
+}
