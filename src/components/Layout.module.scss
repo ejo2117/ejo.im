@@ -84,6 +84,7 @@
     @extend .content;
 
     @media screen and (min-width: $media-sm) {
-        position: static
+        position: static;
+        width: 100%;
     }
 }
