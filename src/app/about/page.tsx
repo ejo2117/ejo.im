@@ -29,7 +29,7 @@ export default async function About() {
 				</Link>
 				.<br />
 				<br />
-				In the past, I led the development of multiple of E-Commerce applications as the founding engineer at{' '}
+				In the past, I led the development of multiple of E&#8288;-&#8288;Commerce applications as the founding engineer at{' '}
 				<Link href={'https://paireyewear.com'} target='_blank' rel='noreferrer noopener'>
 					Pair Eyewear
 				</Link>
