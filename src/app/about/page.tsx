@@ -24,8 +24,8 @@ export default async function About() {
 		<Container className={styles.container}>
 			<Caption>
 				Hey! I&apos;m a software engineer based in Los Angeles, currently building MES applications at{' '}
-				<Link href={'https://rivian.com'} target='_blank' rel='noreferrer noopener'>
-					Rivian
+				<Link href={'https://rivianvw.tech'} target='_blank' rel='noreferrer noopener'>
+					Rivian and Volkswagen Group Technologies
 				</Link>
 				.<br />
 				<br />
