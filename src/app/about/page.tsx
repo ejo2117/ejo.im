@@ -1,18 +1,18 @@
 import Link from 'next/link';
 import { Caption, Container } from '@/components/ui';
-import { getCrosswordData, NytStatsResponse } from '@/lib/services/getCrosswordData';
+import { getCrosswordData, NytCrosswordStats } from '@/lib/services/getCrosswordData';
 import styles from './page.module.scss';
 
-function parseCrosswordData(data: NytStatsResponse | undefined) {
+function parseCrosswordData(data: NytCrosswordStats | undefined) {
 	if (typeof data === 'undefined') {
 		return '.';
 	}
 
-	if (data.results.streaks.current_streak === 0) {
+	if (data.dailyStreaks.current === 0) {
 		return " (although I haven't completed today's puzzle yet).";
 	}
 
-	return `. I'm on a ${data.results.streaks.current_streak} day streak!`;
+	return `. I'm on a ${data.dailyStreaks.current} day streak!`;
 }
 
 export default async function About() {
@@ -24,8 +24,8 @@ export default async function About() {
 		<Container className={styles.container}>
 			<Caption>
 				Hey! I&apos;m a software engineer based in Los Angeles, currently building MES applications at{' '}
-				<Link href={'https://rivian.com'} target='_blank' rel='noreferrer noopener'>
-					Rivian
+				<Link href={'https://rivianvw.tech'} target='_blank' rel='noreferrer noopener'>
+					Rivian and Volkswagen Group Technologies
 				</Link>
 				.<br />
 				<br />

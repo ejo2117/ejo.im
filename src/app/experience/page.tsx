@@ -31,7 +31,7 @@ export default function Resume() {
 	const jobs = [
 		{
 			title: 'Senior Software Engineer',
-			company: 'Rivian',
+			company: 'Rivian and Volkswagen Group Technologies',
 			dates: 'Present',
 		},
 		{
