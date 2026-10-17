@@ -41,6 +41,19 @@ const RADIUS = 150;
 const AMPLITUDE = 40;
 
 const VIEW_SIZE = 400;
+const COLOR_TRANSITION_MS = 400;
+
+type HSL = [number, number, number];
+
+const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+const lerpHsl = ([h1, s1, l1]: HSL, [h2, s2, l2]: HSL, t: number): HSL => {
+	// take the shorter way around the hue wheel
+	const hueDelta = ((((h2 - h1) % 360) + 540) % 360) - 180;
+	return [(h1 + hueDelta * t + 360) % 360, s1 + (s2 - s1) * t, l1 + (l2 - l1) * t];
+};
+
+const hslToCSS = ([h, s, l]: HSL) => `hsl(${h}, ${s * 100}%, ${l * 100}%)`;
 
 type BlobProps = {
 	poline: Poline;
@@ -161,6 +174,30 @@ const Blob = ({
 	const pathRef = useRef<SVGPathElement>(null);
 	const gradientRef = useRef<SVGLinearGradientElement>(null);
 
+	const displayedColorsRef = useRef<HSL[]>(poline.colors);
+	const colorTransitionRef = useRef<{ from: HSL[]; to: HSL[]; start: number } | null>(null);
+
+	useEffect(() => {
+		colorTransitionRef.current = {
+			from: displayedColorsRef.current,
+			to: poline.colors,
+			start: performance.now(),
+		};
+	}, [poline]);
+
+	const getDisplayedColors = (time: number) => {
+		const transition = colorTransitionRef.current;
+		if (transition) {
+			const t = Math.min(1, Math.max(0, (time - transition.start) / COLOR_TRANSITION_MS));
+			const eased = easeInOutCubic(t);
+			displayedColorsRef.current = transition.to.map((to, i) => lerpHsl(transition.from[i] ?? to, to, eased));
+			if (t === 1) {
+				colorTransitionRef.current = null;
+			}
+		}
+		return displayedColorsRef.current.map(hslToCSS);
+	};
+
 	const animate = (nodes: Node[], controlPoints: BezierControlPoint[], amplitude: number) => {
 		nodes.forEach((node, i) => {
 			if (Math.abs(nodes[i].nextX - nodes[i].x) < 10) {
@@ -237,7 +274,7 @@ const Blob = ({
 				ctx: canvasRef.current.getContext('2d')!,
 				nodes,
 				controlPoints,
-				colors: poline.colorsCSS,
+				colors: getDisplayedColors(time),
 				radius,
 			});
 		}
